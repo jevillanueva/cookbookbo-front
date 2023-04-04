@@ -1,57 +1,36 @@
-import { useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import Container from "@mui/material/Container";
-import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Pagination from "@mui/material/Pagination";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import { Typography } from "@mui/material";
-
-import {
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-  useRecoilValueLoadable,
-  SetterOrUpdater,
-} from "recoil";
-import { homePageBookSumState, homePageQueryState } from "atoms";
-import { homePageQuery } from "selectors";
-
 import styles from "../styles/HomePage.module.css";
 import CommonLayout from "components/Layout";
-import LeftNav from "components/Navigation/HomeLeftNav";
-import BookInfoCard from "components/Card/BookInfo";
-import { BookSekeleton } from "components/Skeleton/BookCardSkeleton";
+import { Box, Container, Pagination, Skeleton, Typography } from "@mui/material";
+import { homePageQueryState, homePageRecipeSumState } from "atoms";
+import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import { homePageQuery } from "selectors";
+const PAGE_SIZE = 1;
 
-const PAGE_SIZE = 8;
 
-const BookList = (props: { page: number }) => {
+const RecipeList = (props: { page: number }) => {
   const { page } = props;
-  // const bookListLoadable = useRecoilValueLoadable(currentPageIdxQuery);
-  const bookListLoadable = useRecoilValueLoadable(homePageQuery);
-  const [homePageBookSum, setHomePageBookSum] =
-    useRecoilState(homePageBookSumState);
-  switch (bookListLoadable.state) {
+  const recipeListLoadable = useRecoilValueLoadable(homePageQuery);
+  const [homePageRecipeSum, setHomePageRecipeSum] = useRecoilState(homePageRecipeSumState);
+  switch (recipeListLoadable.state) {
     case "hasValue":
-      setHomePageBookSum(bookListLoadable.contents.total);
+      setHomePageRecipeSum(recipeListLoadable.contents.total);
       return (
         <>
-          {!!homePageBookSum && (
+          {!!homePageRecipeSum && (
             <Typography
               component="div"
               variant="body2"
               sx={{ padding: "1rem 0" }}
             >{`${PAGE_SIZE * (page - 1) + 1} ~ ${
               PAGE_SIZE * page
-            } of over ${homePageBookSum} results`}</Typography>
+            } de ${homePageRecipeSum} resultados`}</Typography>
           )}
-          <div className={styles.bookList}>
-            {bookListLoadable.contents.content.map((book) => (
-              <BookInfoCard key={book.id} {...book} />
+          <div className={styles.itemList}>
+            {recipeListLoadable.contents.content.map((recipe) => (
+              <div key={recipe._id}>{recipe.name}</div>
+              // <BookInfoCard key={book.id} {...book} />
             ))}
           </div>
         </>
@@ -60,82 +39,36 @@ const BookList = (props: { page: number }) => {
       return (
         <>
           <Skeleton sx={{ maxWidth: "10rem", margin: "1rem 0" }} />
-          <div className={styles.bookList}>
+          <div className={styles.itemList} >
             {Array.from(Array(PAGE_SIZE)).map((i, idx) => (
-              <BookSekeleton key={idx} />
+              <div key={idx}>
+              {/* <BookSekeleton key={idx} /> */}
+              </div>
             ))}
           </div>
         </>
       );
     case "hasError":
-      throw bookListLoadable.contents;
+      throw recipeListLoadable.contents;
   }
 };
 
-const FilterChips = (props: {
-  data: { page: number; type: string; sort: string; size: number };
-  onChange: SetterOrUpdater<{
-    page: number;
-    type: string;
-    sort: string;
-    size: number;
-  }>;
-}) => {
-  const { data, onChange } = props;
-  const handleDelete = (key: "type" | "sort") => {
-    onChange((originData) => ({ ...originData, [key]: "" }));
-  };
-  return (
-    <Stack direction="row" spacing={1}>
-      {data.type && (
-        <Chip
-          label={`Type: ${data.type
-            .replaceAll(`_nbsp_`, ` `)
-            .replaceAll(`_amp_`, `&`)}`}
-          size="small"
-          onDelete={() => {
-            handleDelete("type");
-          }}
-        />
-      )}
-      {data.sort && (
-        <Chip
-          label={`Sort: ${data.sort}`}
-          size="small"
-          onDelete={() => {
-            handleDelete("sort");
-          }}
-        />
-      )}
-    </Stack>
-  );
-};
-
 const Home: NextPage = () => {
-  const [homePageQueryData, setHomePageQueryData] =
-    useRecoilState(homePageQueryState);
-  const [homePageBookSum] = useRecoilState(homePageBookSumState);
-
+  const [homePageQueryData, setHomePageQueryData] = useRecoilState(homePageQueryState);
+  const [homePageRecipeSum] = useRecoilState(homePageRecipeSumState);
   return (
     <>
       <Head>
-        <title>Bookstore Home</title>
-        <meta name="description" content="Bookstore Home Page" />
+        <title>Cocina Boliviana</title>
+        <meta name="description" content="Cocina Boliviana" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <CommonLayout>
         <div className={styles.content}>
-          <LeftNav className={styles.nav} />
           <main className={styles.main}>
             <Container>
-              {(homePageQueryData.sort || homePageQueryData.type) && (
-                <FilterChips
-                  data={homePageQueryData}
-                  onChange={setHomePageQueryData}
-                />
-              )}
-              <BookList page={homePageQueryData.page} />
+            <RecipeList page={homePageQueryData.page} />
               <Box
                 sx={{
                   padding: "1rem",
@@ -145,7 +78,7 @@ const Home: NextPage = () => {
                 }}
               >
                 <Pagination
-                  count={Math.ceil(homePageBookSum / PAGE_SIZE)}
+                  count={Math.ceil(homePageRecipeSum / PAGE_SIZE)}
                   page={homePageQueryData.page}
                   color="primary"
                   onChange={(

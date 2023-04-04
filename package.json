@@ -1,13 +1,9 @@
 {
   "name": "tidb-prisma-vercel-demo",
   "scripts": {
-    "build": "prisma generate && next build",
     "dev": "next dev",
-    "prisma:deploy": "prisma migrate deploy",
-    "prisma:generate": "prisma generate",
-    "setup": "NODE_OPTIONS='--experimental-json-modules' node ./scripts/setup.mjs",
-    "start": "next start",
-    "vercel-build": "export DATABASE_URL=$(node ./scripts/env.mjs) && yarn run prisma:deploy && yarn run setup && yarn run build"
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -31,7 +27,6 @@
     "@types/react-dom": "^18.0.6",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.2",
-    "prisma": "^4.5.0",
     "typescript": "4.7.4"
   }
 }

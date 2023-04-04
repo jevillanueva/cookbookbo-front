@@ -7,23 +7,17 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import Divider from "@mui/material/Divider";
+import FoodBankIcon from '@mui/icons-material/FoodBank';
+// import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
-import { shoppingCartState } from "atoms";
+import { searchRecipeState } from "atoms";
 import { useRecoilState } from "recoil";
-
-import { calcCartItemSum } from "lib/utils";
+import {SearchRecipe} from "const";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -70,7 +64,7 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  const [, setSearchRecipeState] = useRecoilState(searchRecipeState);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -109,8 +103,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} disabled>
-        My account
+      <MenuItem onClick={handleMenuClose} >
+        Iniciar Sesión
       </MenuItem>
       {/* <Link href="/orders">
         <MenuItem onClick={handleMenuClose}>Orders</MenuItem>
@@ -135,23 +129,27 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <Link href="/cart">
+      {/* <Link href="/cart">
         <MenuItem>Shopping Cart</MenuItem>
       </Link>
-      <Divider />
-      <MenuItem disabled>My Account</MenuItem>
+      <Divider /> */}
+      <MenuItem>Iniciar Sesión</MenuItem>
       {/* <Link href="/orders">
         <MenuItem>Orders</MenuItem>
       </Link> */}
     </Menu>
   );
+  const submitSearch = (e: any) => {
+    e.preventDefault();
+    setSearchRecipeState({search: e.target[0].value})
+  };
 
   return (
     <>
       <AppBar position="static">
         <Toolbar>
           <Link href="/">
-            <MenuBookIcon sx={{ display: { md: "flex" }, mr: 1 }} />
+            <FoodBankIcon sx={{ display: { md: "flex" }, mr: 1 }} />
           </Link>
           <Link href="/">
             <Typography
@@ -162,42 +160,31 @@ export default function PrimarySearchAppBar() {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
+                fontWeight: 100,
+                letterSpacing: ".2rem",
                 color: "inherit",
                 textDecoration: "none",
                 cursor: "pointer",
               }}
             >
-              Bookstore
+              Cocina Boliviana
             </Typography>
           </Link>
-
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          <form onSubmit={submitSearch}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                name="search"
+                placeholder="Buscar receta…"
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          </form>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Link href="/cart">
-              <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <Badge
-                  badgeContent={calcCartItemSum(shoppingCart)}
-                  color="error"
-                >
-                  <ShoppingCartCheckoutIcon />
-                </Badge>
-              </IconButton>
-            </Link>
+
             <IconButton
               size="large"
               edge="end"

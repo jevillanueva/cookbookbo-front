@@ -1,49 +1,38 @@
-export type AuthorType = {
-  id: string;
-  name: string;
+export interface SearchRecipe {
+  search?: string;
+  page?: number;
+  size?: number;
 };
 
-export interface BookProps {
-  id: string;
-  title: string;
-  type: string;
-  publishedAt: string;
-  stock: number;
-  price: string;
-  authors: { author: AuthorType }[];
-  averageRating: number;
-  ratings: number;
+export type IngredientProps = {
+  name: string;
+  optional: boolean;
+  quantity_si: number;
+  unit_si: string;
+  quantity_equivalence: number;
+  unit_equivalence: string;
+};
+
+export type PreparationProps = {
+  name: string;
+  ingredients: IngredientProps[];
+  steps: { detail: string }[];
 }
 
-export interface shoppingCartItemProps extends BookProps {
-  quantity: number;
-}
-
-export type BookDetailProps = Omit<
-  BookProps,
-  "authors" | "averageRating" | "ratings"
->;
-
-export interface BookRatingsProps {
-  bookId: string;
-  userId: string;
-  score: number;
-  ratedAt: string;
-  user: {
-    id: string;
-    nickname: string;
-  };
-}
-
-export const starLabels: { [index: string]: string } = {
-  0.5: "Useless",
-  1: "Useless+",
-  1.5: "Poor",
-  2: "Poor+",
-  2.5: "Ok",
-  3: "Ok+",
-  3.5: "Good",
-  4: "Good+",
-  4.5: "Excellent",
-  5: "Excellent+",
+export type RecipeProps = {
+  _id: string;
+  name: string;
+  description: string;
+  lang: string;
+  owner: string;
+  publisher: string;
+  tags: string[];
+  year: number;
+  location: string;
+  category: string[];
+  portion: number;
+  preparation_time_minutes: number;
+  calification: number;
+  preparation: PreparationProps[];
+  image_url: string;
 };
