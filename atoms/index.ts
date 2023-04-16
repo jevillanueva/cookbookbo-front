@@ -9,11 +9,16 @@ export const searchRecipeState = atom({
 
 export const homePageQueryState = atom({
   key: "homePageQueryState",
-  default: { page: 1, size: 1 },
+  default: { page: 1, size: 10 },
 });
 
 
 export const homePageRecipeSumState = atom({
   key: "homePageRecipeSumState",
   default: 0,
+});
+
+export const recipeDetailsIdState = atom({
+  key: "recipeDetailsIdState",
+  default: "",
 });

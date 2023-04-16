@@ -149,7 +149,7 @@ export default function PrimarySearchAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Link href="/">
-            <FoodBankIcon sx={{ display: { md: "flex" }, mr: 1 }} />
+            <FoodBankIcon fontSize="large" sx={{ display: { md: "flex" }, mr: 1 }} />
           </Link>
           <Link href="/">
             <Typography

@@ -32,7 +32,8 @@ export type RecipeProps = {
   category: string[];
   portion: number;
   preparation_time_minutes: number;
-  calification: number;
+  score: number;
   preparation: PreparationProps[];
   image_url: string;
+  published?: boolean;
 };

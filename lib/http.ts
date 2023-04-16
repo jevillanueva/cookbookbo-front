@@ -25,3 +25,19 @@ export async function fetchSearchRecipes(data: {
     return { error, content: [], total: 0 };
   }
 }
+export async function fetchRecipeDetailsById(id: string): Promise<{
+  content: RecipeProps;
+  error?: any;
+}> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/recipe/public/${id}`);
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
+  } catch (error) {
+    console.error(error);
+    return { error, content: {} as RecipeProps };
+  }
+}

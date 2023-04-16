@@ -6,7 +6,9 @@ import { Box, Container, Pagination, Skeleton, Typography } from "@mui/material"
 import { homePageQueryState, homePageRecipeSumState } from "atoms";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
-const PAGE_SIZE = 1;
+import RecipeInfo from "components/Card/RecipeInfo";
+import { RecipeSekeleton } from "components/Skeleton/RecipeCardSkeleton";
+const PAGE_SIZE = 10;
 
 
 const RecipeList = (props: { page: number }) => {
@@ -23,14 +25,12 @@ const RecipeList = (props: { page: number }) => {
               component="div"
               variant="body2"
               sx={{ padding: "1rem 0" }}
-            >{`${PAGE_SIZE * (page - 1) + 1} ~ ${
-              PAGE_SIZE * page
-            } de ${homePageRecipeSum} resultados`}</Typography>
+            >{`${PAGE_SIZE * (page - 1) + 1} ~ ${PAGE_SIZE * page
+              } de ${homePageRecipeSum} resultados`}</Typography>
           )}
           <div className={styles.itemList}>
             {recipeListLoadable.contents.content.map((recipe) => (
-              <div key={recipe._id}>{recipe.name}</div>
-              // <BookInfoCard key={book.id} {...book} />
+              <RecipeInfo key={recipe._id} {...recipe} />
             ))}
           </div>
         </>
@@ -41,9 +41,7 @@ const RecipeList = (props: { page: number }) => {
           <Skeleton sx={{ maxWidth: "10rem", margin: "1rem 0" }} />
           <div className={styles.itemList} >
             {Array.from(Array(PAGE_SIZE)).map((i, idx) => (
-              <div key={idx}>
-              {/* <BookSekeleton key={idx} /> */}
-              </div>
+              <RecipeSekeleton key={idx} />
             ))}
           </div>
         </>
@@ -61,14 +59,14 @@ const Home: NextPage = () => {
       <Head>
         <title>Cocina Boliviana</title>
         <meta name="description" content="Cocina Boliviana" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <CommonLayout>
         <div className={styles.content}>
           <main className={styles.main}>
             <Container>
-            <RecipeList page={homePageQueryData.page} />
+              <RecipeList page={homePageQueryData.page} />
               <Box
                 sx={{
                   padding: "1rem",

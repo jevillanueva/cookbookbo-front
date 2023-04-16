@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-export const BookSekeleton = () => {
+export const RecipeSekeleton = () => {
   return (
     <>
       <Card
@@ -34,18 +34,18 @@ export const BookSekeleton = () => {
             </Typography>
             <Typography variant="h5" component="div" sx={{ cursor: "pointer" }}>
               <Skeleton />
+            </Typography>            
+            <Typography sx={{ mt:1.5, mb: 1.5 }} color="text.secondary">
+              <Skeleton />
             </Typography>
-
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography sx={{ mt:1.5, mb: 1.5 }} color="text.secondary">
+              <Skeleton />
+              <Skeleton />
               <Skeleton />
             </Typography>
           </CardContent>
         </Box>
-        <CardActions>
-          <Typography variant="h5" component="div" sx={{ width: "100%" }}>
-            <Skeleton sx={{ width: "100%" }} />
-          </Typography>
-        </CardActions>
+        
       </Card>
     </>
   );
