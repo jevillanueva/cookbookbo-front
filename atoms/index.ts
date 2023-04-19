@@ -22,3 +22,8 @@ export const recipeDetailsIdState = atom({
   key: "recipeDetailsIdState",
   default: "",
 });
+
+export const searchBarVisible = atom({
+  key: "SearchBarVisible",
+  default: true,
+});

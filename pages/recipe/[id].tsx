@@ -18,7 +18,7 @@ import Paper from "@mui/material/Paper";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { recipeDetailsIdState } from "atoms";
+import { recipeDetailsIdState, searchBarVisible } from "atoms";
 import { useRouter } from "next/router";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Divider from "@mui/material/Divider";
@@ -59,7 +59,7 @@ const RecipeInfoSection = () => {
                             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
                                 <Paper elevation={24} sx={{ width: "254px", height: "140px" }}>
                                     <Image
-                                        src={imgSrc ? '/error_recipe.svg' : data.image_url}
+                                        src={imgSrc ? '/error_recipe.svg' : (data.image !== undefined && data.image !== null) ? data.image.url : '/error_recipe.svg'}
                                         alt={data.name}
                                         width={254}
                                         height={140}
@@ -399,12 +399,13 @@ const RecipeInfoSection = () => {
 const RecipeDetails: NextPage = () => {
     const router = useRouter();
     const { id } = router.query;
-
+    const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
     const [, setRecipeDetailsId] = useRecoilState(recipeDetailsIdState);
     // const bookDetailsLodable = useRecoilValueLoadable(bookDetailsQuery);
-
+useRecoilState
     useEffect(() => {
         id && setRecipeDetailsId(id as string);
+        setSearchBarVisible(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 

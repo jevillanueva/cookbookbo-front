@@ -11,8 +11,8 @@ import { RecipeProps } from "const";
 export default function BasicCard(props: RecipeProps) {
   const { _id, name, description, lang, owner,
     publisher, tags, year, location, category, portion, preparation_time_minutes,
-    score, preparation, image_url, published } = props;
-  const [src, setSrc] = React.useState(image_url);
+    score, preparation, image, published } = props;
+  const [src, setSrc] = React.useState((image !== undefined && image !== null)? image.url : '/error_recipe.svg');
 
   return (
     <Card
@@ -27,7 +27,7 @@ export default function BasicCard(props: RecipeProps) {
       }}
     >
       <Box>
-        {(image_url || image_url !== "") && (
+        {(image !== undefined && image !== null) && (
           <CardMedia>
             <Image
               onError={() => setSrc('/error_recipe.svg')}

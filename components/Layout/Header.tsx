@@ -15,9 +15,10 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 // import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
-import { searchRecipeState } from "atoms";
+import { searchBarVisible, searchRecipeState } from "atoms";
 import { useRecoilState } from "recoil";
-import {SearchRecipe} from "const";
+import { SearchRecipe } from "const";
+import { useEffect } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,7 +65,7 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
-  const [, setSearchRecipeState] = useRecoilState(searchRecipeState);
+  const [search, setSearchRecipeState] = useRecoilState(searchRecipeState);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -141,9 +142,15 @@ export default function PrimarySearchAppBar() {
   );
   const submitSearch = (e: any) => {
     e.preventDefault();
-    setSearchRecipeState({search: e.target[0].value})
+    setSearchRecipeState({ search: e.target[0].value })
   };
-
+  const [searchBar] = useRecoilState(searchBarVisible);
+  useEffect(() => {
+    let bar = document.getElementById("search");
+    if (bar) {
+      bar.value = search.search;
+    }
+  })
   return (
     <>
       <AppBar position="static">
@@ -170,18 +177,20 @@ export default function PrimarySearchAppBar() {
               Cocina Boliviana
             </Typography>
           </Link>
-          <form onSubmit={submitSearch}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                name="search"
-                placeholder="Buscar receta…"
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          </form>
+          {searchBar && (
+            <form onSubmit={submitSearch}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  id="search"
+                  name="search"
+                  placeholder="Buscar receta…"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+            </form>)}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
 

@@ -3,7 +3,7 @@ import Head from "next/head";
 import styles from "../styles/HomePage.module.css";
 import CommonLayout from "components/Layout";
 import { Box, Container, Pagination, Skeleton, Typography } from "@mui/material";
-import { homePageQueryState, homePageRecipeSumState } from "atoms";
+import { homePageQueryState, homePageRecipeSumState, searchBarVisible } from "atoms";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
 import RecipeInfo from "components/Card/RecipeInfo";
@@ -54,6 +54,8 @@ const RecipeList = (props: { page: number }) => {
 const Home: NextPage = () => {
   const [homePageQueryData, setHomePageQueryData] = useRecoilState(homePageQueryState);
   const [homePageRecipeSum] = useRecoilState(homePageRecipeSumState);
+  const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
+  setSearchBarVisible(true);
   return (
     <>
       <Head>

@@ -19,6 +19,12 @@ export type PreparationProps = {
   steps: { detail: string }[];
 }
 
+export type ImageProps = {
+  name: string;
+  url: string;
+  content_type: string;
+}
+
 export type RecipeProps = {
   _id: string;
   name: string;
@@ -34,6 +40,6 @@ export type RecipeProps = {
   preparation_time_minutes: number;
   score: number;
   preparation: PreparationProps[];
-  image_url: string;
+  image?: ImageProps;
   published?: boolean;
 };
