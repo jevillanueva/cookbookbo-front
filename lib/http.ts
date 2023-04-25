@@ -1,5 +1,6 @@
 import axios from "axios";
-import { RecipeProps } from "const";
+import { useSession } from "next-auth/react";
+import { RecipeProps, UserProps } from "const";
 // import { BookProps, BookDetailProps, BookRatingsProps } from "const";
 export async function fetchSearchRecipes(data: {
   search?: string;
@@ -39,5 +40,50 @@ export async function fetchRecipeDetailsById(id: string): Promise<{
   } catch (error) {
     console.error(error);
     return { error, content: {} as RecipeProps };
+  }
+}
+export async function fetchLoginAPI(access_token: string){
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/google/login/public`, {"headers": {"Authorization": `Bearer ${access_token}`}});
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return  response.data.token ;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function fetchSignOutAPI(access_token: string){
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/google/logout/public`, {"headers": {"Authorization": `Bearer ${access_token}`}});
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return  true ;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+
+export async function fetchMe(access_token: string): Promise<{
+  content: UserProps;
+  error?: any;
+}>{
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/users/me/public`, {"headers": {"Authorization": `Bearer ${access_token}`}});
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
+  } catch (error) {
+    console.error(error);
+    return { error, content: {} as UserProps };
   }
 }

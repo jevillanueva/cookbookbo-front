@@ -1,7 +1,8 @@
 import { selector } from "recoil";
-import { homePageQueryState, recipeDetailsIdState, searchRecipeState } from "atoms";
-import { fetchRecipeDetailsById, fetchSearchRecipes } from "lib/http";
-
+import { accessTokenState, homePageQueryState, recipeDetailsIdState, searchRecipeState } from "atoms";
+import { fetchMe, fetchRecipeDetailsById, fetchSearchRecipes } from "lib/http";
+import { useSession } from "next-auth/react";
+import { UserProps } from "const";
 export const homePageQuery = selector({
   key: "homePage",
   get: async ({ get }) => {
@@ -21,5 +22,21 @@ export const recipeInfoQuery = selector({
       throw response.error;
     }
     return response;
+  },
+});
+
+
+export const mePageQuery = selector({
+  key: "MePageQuery",
+  get: async ({ get }) => {
+    const id = get(accessTokenState);
+    if (id !== "") {
+      const response = await fetchMe(id);
+      if (response.error) {
+        throw response.error;
+      }
+      return response;
+    }
+    return { content: {} as UserProps } ;
   },
 });

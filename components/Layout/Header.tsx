@@ -15,10 +15,12 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 // import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
-import { searchBarVisible, searchRecipeState } from "atoms";
+import { accessTokenState, searchBarVisible, searchRecipeState } from "atoms";
 import { useRecoilState } from "recoil";
-import { SearchRecipe } from "const";
 import { useEffect } from "react";
+
+import { signIn, signOut, useSession } from "next-auth/react"
+import { fetchSignOutAPI } from "lib/http";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const { data: session, status } = useSession();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -86,6 +89,8 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const [, setAccessTokenState] = useRecoilState(accessTokenState);
+
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -104,12 +109,31 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} >
-        Iniciar Sesión
-      </MenuItem>
-      {/* <Link href="/orders">
-        <MenuItem onClick={handleMenuClose}>Orders</MenuItem>
-      </Link> */}
+      {!session && (
+        <>
+          <a href={`/api/auth/signin`} onClick={(e) => {
+            e.preventDefault()
+            signIn()
+          }}>
+            <MenuItem onClick={handleMenuClose}>Iniciar Sesión</MenuItem>
+          </a>
+        </>
+      )}
+      {session && (
+        <>
+          <Link href="/me">
+            <MenuItem>Perfil</MenuItem>
+          </Link>
+          <a href={`/api/auth/signout`} onClick={(e) => {
+            e.preventDefault()
+            fetchSignOutAPI(session.accessToken);
+            signOut();
+          }}>
+            <MenuItem onClick={handleMenuClose}>Salir</MenuItem>
+          </a>
+        </>
+      )}
+
     </Menu>
   );
 
@@ -130,14 +154,27 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <Link href="/cart">
-        <MenuItem>Shopping Cart</MenuItem>
-      </Link>
-      <Divider /> */}
-      <MenuItem>Iniciar Sesión</MenuItem>
-      {/* <Link href="/orders">
-        <MenuItem>Orders</MenuItem>
-      </Link> */}
+      {!session && (
+        <a href={`/api/auth/signin`} onClick={(e) => {
+          e.preventDefault()
+          signIn()
+        }}>
+          <MenuItem>Iniciar Sesión</MenuItem>
+        </a>
+      )}
+      {session && (
+        <>
+          <Link href="/me">
+            <MenuItem>Perfil</MenuItem>
+          </Link>
+          <a href={`/api/auth/signout`} onClick={(e) => {
+            e.preventDefault()
+            signOut()
+          }}>
+            <MenuItem>Salir</MenuItem>
+          </a>
+        </>
+      )}
     </Menu>
   );
   const submitSearch = (e: any) => {
@@ -151,6 +188,13 @@ export default function PrimarySearchAppBar() {
       bar.value = search.search;
     }
   })
+  useEffect(() => {
+    console.log("GGG", status);
+    if (status === "authenticated") {
+      console.log("GGG", session.accessToken);
+      setAccessTokenState(session.accessToken);
+    }
+  }, [session, status]);
   return (
     <>
       <AppBar position="static">

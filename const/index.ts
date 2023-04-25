@@ -43,3 +43,13 @@ export type RecipeProps = {
   image?: ImageProps;
   published?: boolean;
 };
+
+export type UserProps = {
+  username:string;
+  email:string;
+  given_name:string;
+  family_name:string;
+  picture: string;
+  admin:boolean;
+  disabled:boolean;
+};
