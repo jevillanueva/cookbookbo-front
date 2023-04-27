@@ -66,6 +66,9 @@ export default function DialogUpdateImageRecipe(props: {
                         <Typography >
                             {"Se recomienda imágenes inferiores a 3 MB"}
                         </Typography>
+                        <Typography >
+                            {"Y en formato cuadrado 1:1 (ejemplo: 500x500)"}
+                        </Typography>
                         <br></br>
                         <Button color='secondary' variant='outlined' component="label" endIcon={<PhotoCamera />}>
                             Seleccionar
