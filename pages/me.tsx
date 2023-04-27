@@ -6,13 +6,14 @@ import { useEffect } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 
 import CommonLayout from "components/Layout";
-import { Box, Breadcrumbs, Container, Grid, Link, Skeleton, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Container, Grid, Link, Paper, Skeleton, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import { mePageQuery } from "selectors";
 
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from "@mui/icons-material/Home";
+import Image from "next/image";
 const MeInfoSection = () => {
     const meDetailsLoadable = useRecoilValueLoadable(mePageQuery);
     switch (meDetailsLoadable.state) {
@@ -44,8 +45,8 @@ const MeInfoSection = () => {
                     <Box>
                         <Grid container spacing={2} alignItems="center"
                             justifyContent="center" >
-                            <Grid item lg={6} md={6}  sm={12} >
-                                <img src={data.picture} alt="avatar" />
+                            <Grid item lg={6} md={6} sm={12} >
+                                <Image src={data.picture} alt={data.given_name} width={92} height={92} />
                             </Grid>
                             <Grid item lg={6} md={6} sm={12}>
                                 <Typography>

@@ -32,3 +32,37 @@ export const accessTokenState = atom({
   key: 'AccessTokenState',
   default: "",
 });
+
+export const searchRecipeUserPublishedState = atom({
+  key: "searchRecipeUserPublishedState",
+  default: { search: "" },
+});
+export const searchRecipeUserNotRequestedState = atom({
+  key: "searchRecipeUserNotRequestedState",
+  default: { search: "" },
+});
+export const searchRecipeUserNotReviewedState = atom({
+  key: "searchRecipeUserNotReviewedState",
+  default: { search: "" },
+});
+export const searchRecipeUserRejectedState = atom({
+  key: "searchRecipeUserRejectedState",
+  default: { search: "" },
+});
+
+export const searchRecipeUserPublishedQueryState = atom({
+  key: "searchRecipeUserPublishedQueryState",
+  default: { page: 1, size: 10 },
+});
+export const searchRecipeUserNotRequestedQueryState = atom({
+  key: "searchRecipeUserNotRequestedQueryState",
+  default: { page: 1, size: 10 },
+});
+export const searchRecipeUserNotReviewedQueryState = atom({
+  key: "searchRecipeUserNotReviewedQueryState",
+  default: { page: 1, size: 10 },
+});
+export const searchRecipeUserRejectedQueryState = atom({
+  key: "searchRecipeUserRejectedQueryState",
+  default: { page: 1, size: 10 },
+});

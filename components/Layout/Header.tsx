@@ -21,6 +21,8 @@ import { useEffect } from "react";
 
 import { signIn, signOut, useSession } from "next-auth/react"
 import { fetchSignOutAPI } from "lib/http";
+import { Avatar } from "@mui/material";
+import Image from "next/image";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -110,28 +112,31 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {!session && (
-        <>
+        <div>
           <a href={`/api/auth/signin`} onClick={(e) => {
             e.preventDefault()
             signIn()
           }}>
             <MenuItem onClick={handleMenuClose}>Iniciar Sesión</MenuItem>
           </a>
-        </>
+        </div>
       )}
       {session && (
-        <>
+        <div>
           <Link href="/me">
             <MenuItem>Perfil</MenuItem>
+          </Link>
+          <Link href="/me/recipes">
+            <MenuItem>Mis Recetas</MenuItem>
           </Link>
           <a href={`/api/auth/signout`} onClick={(e) => {
             e.preventDefault()
             fetchSignOutAPI(session.accessToken);
-            signOut();
+            signOut({ callbackUrl: `${window.location.origin}` });
           }}>
             <MenuItem onClick={handleMenuClose}>Salir</MenuItem>
           </a>
-        </>
+        </div>
       )}
 
     </Menu>
@@ -167,9 +172,12 @@ export default function PrimarySearchAppBar() {
           <Link href="/me">
             <MenuItem>Perfil</MenuItem>
           </Link>
+          <Link href="/me/recipes">
+            <MenuItem>Mis Recetas</MenuItem>
+          </Link>
           <a href={`/api/auth/signout`} onClick={(e) => {
             e.preventDefault()
-            signOut()
+            signOut({ callbackUrl: `${window.location.origin}` })
           }}>
             <MenuItem>Salir</MenuItem>
           </a>
@@ -189,9 +197,7 @@ export default function PrimarySearchAppBar() {
     }
   })
   useEffect(() => {
-    console.log("GGG", status);
     if (status === "authenticated") {
-      console.log("GGG", session.accessToken);
       setAccessTokenState(session.accessToken);
     }
   }, [session, status]);
@@ -247,7 +253,13 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar>
+                {status === "authenticated" && session ?
+                  <Image src={session.user.image} alt={session.user.name} layout="fill" />
+                  :
+                  <AccountCircle />
+                }
+              </Avatar>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -259,7 +271,13 @@ export default function PrimarySearchAppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <MoreIcon />
+              <Avatar>
+                {status === "authenticated" && session ?
+                  <Image src={session.user.image} alt={session.user.name} layout="fill" />
+                  :
+                  <MoreIcon />
+                }
+              </Avatar>
             </IconButton>
           </Box>
         </Toolbar>

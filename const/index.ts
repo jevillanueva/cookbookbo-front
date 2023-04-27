@@ -42,6 +42,7 @@ export type RecipeProps = {
   preparation: PreparationProps[];
   image?: ImageProps;
   published?: boolean;
+  reviewed?: boolean|null;
 };
 
 export type UserProps = {
