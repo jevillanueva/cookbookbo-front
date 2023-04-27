@@ -113,3 +113,24 @@ export async function fetchSearchRecipesUser(access_token: string, data: {
     return { error, content: [], total: 0 };
   }
 }
+
+export async function deleteRecipesUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.delete(`${API_URL}/recipe/user/public/${id}`, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 204) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { message: "" };
+  } catch (error) {
+    try {
+      if (error.response.data.message) {
+        return { error, message: error.response.data.message };
+      }
+      return { error, message: error.message };
+    } catch (e) {
+      console.error(e);
+      return { error, message: e.message };
+    }
+  }
+}
