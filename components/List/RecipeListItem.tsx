@@ -130,7 +130,7 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
             />
             {state === "published" && menuItemsPublishAndNotReviewed(recipe._id)}
             {state === "not_reviewed" && menuItemsPublishAndNotReviewed(recipe._id)}
-            {state === "not_request" && menuItemsDraftAndReject(recipe._id)}
+            {state === "not_requested" && menuItemsDraftAndReject(recipe._id)}
             {state === "rejected" && menuItemsDraftAndReject(recipe._id)}
             <ListItemSecondaryAction sx={{ position: "absolute", top: "25px" }}>
                 <IconButton edge="end" onClick={handleMenuOpen}>
