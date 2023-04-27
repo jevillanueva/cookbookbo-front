@@ -10,24 +10,35 @@ import PublicIcon from '@mui/icons-material/Public';
 import PublicOffIcon from '@mui/icons-material/PublicOff';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DialogDeleteRecipe from "components/Dialog/DialogDeleteRecipe";
+import DialogReviewRecipe from "components/Dialog/DialogReviewRecipe";
+import DialogUnReviewRecipe from "components/Dialog/DialogUnReviewRecipe";
 import { useRecoilState } from "recoil";
 import { searchRecipeUserPublishedState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedState, searchRecipeUserRejectedState } from "atoms";
+import DialogUnPublishRecipe from "components/Dialog/DialogUnPublishRecipe";
 interface ListItemProps {
     primaryText: string;
     secondaryText: string;
 }
 
 
-export default function RecipeListItem(props: { recipe: RecipeProps, state: string }) {
-
-    const [searchPublished, setSearchRecipePublishedState] = useRecoilState(searchRecipeUserPublishedState);
-    const [searchNotRequest, setSearchRecipeNotRequestedState] = useRecoilState(searchRecipeUserNotRequestedState);
-    const [searchNotReviewed, setSearchRecipeNotReviewedState] = useRecoilState(searchRecipeUserNotReviewedState);
-    const [searchRejected, setSearchRecipeRejectedState] = useRecoilState(searchRecipeUserRejectedState);
-
+export default function RecipeListItem(props: {
+    recipe: RecipeProps, state: string,
+    callbackPublished: () => void,
+    callbackUnReview: () => void,
+    callbackUnRequest: () => void,
+    callbackReject: () => void,
+}) {
+    const { recipe, state, 
+        callbackPublished = () => { },
+        callbackUnReview = () => { },
+        callbackUnRequest = () => { },
+        callbackReject = () => { },
+     } = props;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { recipe, state } = props;
     const [openDelete, setOpenDelete] = useState(false);
+    const [openReview, setOpenReview] = useState(false);
+    const [openUnReview, setOpenUnReview] = useState(false);
+    const [openUnPublish, setOpenUnPublish] = useState(false);
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -41,10 +52,17 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
         handleMenuClose();
     };
     const handleUnPublishRecipe = (id: string) => {
+        setOpenUnPublish(true);
         console.log(id)
         handleMenuClose();
     };
-    const handlePublishRecipe = (id: string) => {
+    const handleUnReviewRecipe = (id: string) => {
+        setOpenUnReview(true);
+        console.log(id)
+        handleMenuClose();
+    };
+    const handleReviewRecipe = (id: string) => {
+        setOpenReview(true);
         console.log(id)
         handleMenuClose();
     };
@@ -96,7 +114,7 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
                         <RestaurantIcon fontSize="small" />
                     </ListItemIcon>Ver receta
                 </MenuItem>
-                <MenuItem onClick={() => handleUnPublishRecipe(id)}>
+                <MenuItem onClick={() => handleUnReviewRecipe(id)}>
                     <ListItemIcon>
                         <PublicOffIcon fontSize="small" />
                     </ListItemIcon>Retirar Revisión
@@ -122,17 +140,17 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
                         <RestaurantIcon fontSize="small" />
                     </ListItemIcon>Ver receta
                 </MenuItem>
-                <MenuItem onClick={() => handleEditPhotoRecipe(id)}>
-                    <ListItemIcon>
-                        <AddPhotoAlternateIcon fontSize="small" />
-                    </ListItemIcon>Actualizar imagen
-                </MenuItem>
                 <MenuItem onClick={() => handleEditRecipe(id)}>
                     <ListItemIcon>
                         <EditIcon fontSize="small" />
                     </ListItemIcon>Editar Receta
                 </MenuItem>
-                <MenuItem onClick={() => handlePublishRecipe(id)}>
+                <MenuItem onClick={() => handleEditPhotoRecipe(id)}>
+                    <ListItemIcon>
+                        <AddPhotoAlternateIcon fontSize="small" />
+                    </ListItemIcon>Actualizar imagen
+                </MenuItem>
+                <MenuItem onClick={() => handleReviewRecipe(id)}>
                     <ListItemIcon>
                         <PublicIcon fontSize="small" />
                     </ListItemIcon>Publicar
@@ -168,18 +186,30 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
             {state === "published" ?
                 <>
                     {menuItemsPublish(recipe._id)}
+                    <DialogUnPublishRecipe
+                        open={openUnPublish}
+                        setOpen={setOpenUnPublish}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackPublished } />
                 </>
                 : null}
             {state === "not_reviewed" ?
                 <>
                     {menuItemsNotReviewed(recipe._id)}
+                    <DialogUnReviewRecipe
+                        open={openUnReview}
+                        setOpen={setOpenUnReview}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackUnReview } />
                     <DialogDeleteRecipe
                         open={openDelete}
                         setOpen={setOpenDelete}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
-                        callback={() => {setSearchRecipeNotReviewedState({search: searchNotReviewed.search})}}
-                        />
+                        callback={callbackUnReview}
+                    />
                 </>
                 : null}
             {state === "not_requested" ?
@@ -190,7 +220,14 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
                         setOpen={setOpenDelete}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
-                        callback={() => {setSearchRecipeNotRequestedState({search: searchNotRequest.search})}}
+                        callback={callbackUnRequest}
+                    />
+                    <DialogReviewRecipe
+                        open={openReview}
+                        setOpen={setOpenReview}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackUnRequest}
                     />
                 </>
                 : null
@@ -203,7 +240,14 @@ export default function RecipeListItem(props: { recipe: RecipeProps, state: stri
                         setOpen={setOpenDelete}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
-                        callback={() => {setSearchRecipeRejectedState({search: searchRejected.search})}}
+                        callback={callbackReject}
+                    />
+                    <DialogReviewRecipe
+                        open={openReview}
+                        setOpen={setOpenReview}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackReject}
                     />
                 </>
                 : null

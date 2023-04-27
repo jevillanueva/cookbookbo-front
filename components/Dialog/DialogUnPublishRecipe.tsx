@@ -1,13 +1,13 @@
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import PublicOffIcon from '@mui/icons-material/PublicOff';
 import { LoadingButton } from "@mui/lab";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@mui/material";
 import { accessTokenState } from "atoms";
-import { deleteRecipesUser } from "lib/http";
+import { unPublishRecipeUser } from "lib/http";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { useRecoilState } from "recoil";
 
-export default function DialogDeleteRecipe(props: {
+export default function DialogUnPublishRecipe(props: {
     open: boolean,
     setOpen: (state: boolean) => void,
     recipeId: string,
@@ -23,7 +23,7 @@ export default function DialogDeleteRecipe(props: {
     };
     const handleDelete = async () => {
         setLoading(true);
-        const response = await deleteRecipesUser(token, recipeId);
+        const response = await unPublishRecipeUser(token, recipeId);
         if (response.error) {
             enqueueSnackbar(response.message, {
                 variant: "error",
@@ -32,13 +32,12 @@ export default function DialogDeleteRecipe(props: {
             handleClose();
             return;
         }
-        enqueueSnackbar(`La receta fue eliminada`, {
+        enqueueSnackbar(`La receta ya no se encuentra pública`, {
             variant: "success",
         });
         setLoading(false);
         handleClose();
         callback();
-        // Router.reload();
     };
     return (
         <Dialog
@@ -48,8 +47,8 @@ export default function DialogDeleteRecipe(props: {
             aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
-                <ReportProblemIcon color="error" sx={{  mb: -0.5,mr: 1 }} />
-                {"Eliminar receta "}
+                <PublicOffIcon color="error" sx={{  mb: -0.5,mr: 1 }} />
+                {"Cancelar publicación"}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -57,16 +56,16 @@ export default function DialogDeleteRecipe(props: {
                     <b>"{recipeTitle}"</b>
                     </Typography>
                     <Typography>
-                    {`Esta operación no se puede deshacer. ¿Estás seguro de que quieres eliminar esta receta?`}
+                    {`Se cancelará la publicación de la receta, no se mostrará abierta al público`}
                     </Typography>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} autoFocus disabled={loading}>
+                <Button onClick={handleClose} autoFocus disabled={loading} color="primary">
                     Cerrar
                 </Button>
-                <LoadingButton onClick={handleDelete} color="error" loading={loading}>
-                    Eliminar
+                <LoadingButton onClick={handleDelete} color='error' loading={loading}>
+                    Cancelar publicación
                 </LoadingButton>
             </DialogActions>
         </Dialog>);

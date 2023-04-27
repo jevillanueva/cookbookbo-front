@@ -62,7 +62,7 @@ function TabPanel(props: TabPanelProps) {
 }
 const Recipes = () => {
     const [searchPublished, setSearchRecipePublishedState] = useRecoilState(searchRecipeUserPublishedState);
-    const [searchNotRequest, setSearchRecipeNotRequestedState] = useRecoilState(searchRecipeUserNotRequestedState);
+    const [searchNotRequested, setSearchRecipeNotRequestedState] = useRecoilState(searchRecipeUserNotRequestedState);
     const [searchNotReviewed, setSearchRecipeNotReviewedState] = useRecoilState(searchRecipeUserNotReviewedState);
     const [searchRejected, setSearchRecipeRejectedState] = useRecoilState(searchRecipeUserRejectedState);
 
@@ -79,7 +79,7 @@ const Recipes = () => {
     useEffect(() => {
         let searchElement = document.getElementById("searchNotRequested");
         if (searchElement) {
-            searchElement.value = searchNotRequest.search;
+            searchElement.value = searchNotRequested.search;
         }
     })
     useEffect(() => {
@@ -120,6 +120,20 @@ const Recipes = () => {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        switch (newValue) {
+            case 0:
+                setSearchRecipeUserNotRequestedQueryState({ ...srNotRequestedQueryState, page: 1 });
+                break;
+            case 1:
+                setSearchRecipeUserRejectedQueryState({ ...srRejectedQueryState, page: 1 });
+                break;
+            case 2:
+                setSearchRecipeUserNotReviewedQueryState({ ...srNotReviewedQueryState, page: 1 });
+                break;
+            case 3:
+                setSearchRecipeUserPublishedQueryState({ ...srPublishedQueryState, page: 1 });
+                break;
+        }
     };
     return (
         <Box>
@@ -150,12 +164,13 @@ const Recipes = () => {
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <RecipeList
                                 data={recipeListLoadableNotRequested}
-                                title={"Recetas sin publicar"}
                                 page_size={PAGE_SIZE}
                                 page={srNotRequestedQueryState.page}
                                 paginationQueryData={srNotRequestedQueryState}
                                 setPaginationQueryData={setSearchRecipeUserNotRequestedQueryState}
-                                state="not_requested" />
+                                state="not_requested"
+                                callbackUnRequest={() => { setSearchRecipeNotRequestedState({ search: searchNotRequested.search }) }}
+                            />
                         </Grid>
                     </Grid>
                 </TabPanel>
@@ -165,11 +180,13 @@ const Recipes = () => {
                             <SearchForm submitSearch={submitSearchRejected} idSearch="searchRejected" />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <RecipeList data={recipeListLoadableRejected} title={"Recetas rechazadas"} page_size={PAGE_SIZE}
+                            <RecipeList data={recipeListLoadableRejected} page_size={PAGE_SIZE}
                                 page={srRejectedQueryState.page}
                                 paginationQueryData={srRejectedQueryState}
                                 setPaginationQueryData={setSearchRecipeUserRejectedQueryState}
-                                state="rejected" />
+                                state="rejected"
+                                callbackReject={() => { setSearchRecipeRejectedState({ search: searchRejected.search }) }}
+                            />
                         </Grid>
                     </Grid>
                 </TabPanel>
@@ -179,11 +196,13 @@ const Recipes = () => {
                             <SearchForm submitSearch={submitSearchNotReviewed} idSearch="searchNotReviewed" />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <RecipeList data={recipeListLoadableNotReviewed} title={"Recetas Pendientes"} page_size={PAGE_SIZE}
+                            <RecipeList data={recipeListLoadableNotReviewed} page_size={PAGE_SIZE}
                                 page={srNotReviewedQueryState.page}
                                 paginationQueryData={srNotReviewedQueryState}
                                 setPaginationQueryData={setSearchRecipeUserNotReviewedQueryState}
-                                state="not_reviewed" />
+                                state="not_reviewed"
+                                callbackUnReview={() => { setSearchRecipeNotReviewedState({ search: searchNotReviewed.search }) }}
+                            />
                         </Grid>
                     </Grid>
                 </TabPanel>
@@ -193,15 +212,19 @@ const Recipes = () => {
                             <SearchForm submitSearch={submitSearchPublished} idSearch="searchPublished" />
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
-                            <RecipeList data={recipeListLoadablePublished} title={"Recetas publicadas"} page_size={PAGE_SIZE}
+                            <RecipeList data={recipeListLoadablePublished} page_size={PAGE_SIZE}
                                 page={srPublishedQueryState.page}
                                 paginationQueryData={srPublishedQueryState}
                                 setPaginationQueryData={setSearchRecipeUserPublishedQueryState}
-                                state="published" />
+                                state="published"
+                                callbackPublished={() => { setSearchRecipePublishedState({ search: searchPublished.search }) }}
+                            />
                         </Grid>
                     </Grid>
                 </TabPanel>
             </Container>
+
+
 
             <Fab sx={fabStyle} aria-label={"new recipe"} color={"primary"}>
                 <AddIcon />
