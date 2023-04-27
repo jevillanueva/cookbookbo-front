@@ -21,7 +21,7 @@ export default function DialogUnPublishRecipe(props: {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDelete = async () => {
+    const handleAction = async () => {
         setLoading(true);
         const response = await unPublishRecipeUser(token, recipeId);
         if (response.error) {
@@ -64,7 +64,7 @@ export default function DialogUnPublishRecipe(props: {
                 <Button onClick={handleClose} autoFocus disabled={loading} color="primary">
                     Cerrar
                 </Button>
-                <LoadingButton onClick={handleDelete} color='error' loading={loading}>
+                <LoadingButton onClick={handleAction} color='error' loading={loading}>
                     Cancelar publicación
                 </LoadingButton>
             </DialogActions>

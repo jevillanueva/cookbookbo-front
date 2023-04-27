@@ -21,7 +21,7 @@ export default function DialogUnReviewRecipe(props: {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDelete = async () => {
+    const handleAction = async () => {
         setLoading(true);
         const response = await unReviewRecipeUser(token, recipeId);
         if (response.error) {
@@ -64,7 +64,7 @@ export default function DialogUnReviewRecipe(props: {
                 <Button onClick={handleClose} autoFocus disabled={loading} color="primary">
                     Cerrar
                 </Button>
-                <LoadingButton onClick={handleDelete} color='warning' loading={loading}>
+                <LoadingButton onClick={handleAction} color='warning' loading={loading}>
                     Cancelar revisión
                 </LoadingButton>
             </DialogActions>

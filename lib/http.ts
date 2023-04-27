@@ -138,7 +138,7 @@ export async function deleteRecipesUser(access_token: string, id: string): Promi
 export async function reviewRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/review`, {} , { "headers": { "Authorization": `Bearer ${access_token}` } });
+    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/review`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -159,7 +159,7 @@ export async function reviewRecipeUser(access_token: string, id: string): Promis
 export async function unReviewRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unreview`, {} ,{ "headers": { "Authorization": `Bearer ${access_token}` } });
+    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unreview`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -180,7 +180,30 @@ export async function unReviewRecipeUser(access_token: string, id: string): Prom
 export async function unPublishRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unpublish`, {} ,{ "headers": { "Authorization": `Bearer ${access_token}` } });
+    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unpublish`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { message: "" };
+  } catch (error) {
+    try {
+      if (error.response.data.message) {
+        return { error, message: error.response.data.message };
+      }
+      return { error, message: error.message };
+    } catch (e) {
+      console.error(e);
+      return { error, message: e.message };
+    }
+  }
+}
+
+export async function changeImageRecipeUser(access_token: string, id: string, file: any): Promise<{ message?: any, error?: any }> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const fd = new FormData();
+    fd.append("file", file, file.name )
+    const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/image`, fd, { "headers": { "Authorization": `Bearer ${access_token}`, "Content-Type": "application/x-www-form-urlencoded" } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }

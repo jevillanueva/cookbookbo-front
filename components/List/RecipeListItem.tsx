@@ -15,6 +15,7 @@ import DialogUnReviewRecipe from "components/Dialog/DialogUnReviewRecipe";
 import { useRecoilState } from "recoil";
 import { searchRecipeUserPublishedState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedState, searchRecipeUserRejectedState } from "atoms";
 import DialogUnPublishRecipe from "components/Dialog/DialogUnPublishRecipe";
+import DialogUpdateImageRecipe from "components/Dialog/DialogUpdateImageRecipe";
 interface ListItemProps {
     primaryText: string;
     secondaryText: string;
@@ -28,17 +29,18 @@ export default function RecipeListItem(props: {
     callbackUnRequest: () => void,
     callbackReject: () => void,
 }) {
-    const { recipe, state, 
+    const { recipe, state,
         callbackPublished = () => { },
         callbackUnReview = () => { },
         callbackUnRequest = () => { },
         callbackReject = () => { },
-     } = props;
+    } = props;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openDelete, setOpenDelete] = useState(false);
     const [openReview, setOpenReview] = useState(false);
     const [openUnReview, setOpenUnReview] = useState(false);
     const [openUnPublish, setOpenUnPublish] = useState(false);
+    const [openUpdateImage, setOpenUpdateImage] = useState(false);
     const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -71,6 +73,7 @@ export default function RecipeListItem(props: {
         handleMenuClose();
     };
     const handleEditPhotoRecipe = (id: string) => {
+        setOpenUpdateImage(true);
         console.log(id)
         handleMenuClose();
     };
@@ -191,7 +194,7 @@ export default function RecipeListItem(props: {
                         setOpen={setOpenUnPublish}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
-                        callback={callbackPublished } />
+                        callback={callbackPublished} />
                 </>
                 : null}
             {state === "not_reviewed" ?
@@ -202,7 +205,7 @@ export default function RecipeListItem(props: {
                         setOpen={setOpenUnReview}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
-                        callback={callbackUnReview } />
+                        callback={callbackUnReview} />
                     <DialogDeleteRecipe
                         open={openDelete}
                         setOpen={setOpenDelete}
@@ -229,6 +232,13 @@ export default function RecipeListItem(props: {
                         recipeTitle={recipe.name}
                         callback={callbackUnRequest}
                     />
+                    <DialogUpdateImageRecipe
+                        open={openUpdateImage}
+                        setOpen={setOpenUpdateImage}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackUnRequest}
+                    />
                 </>
                 : null
             }
@@ -245,6 +255,13 @@ export default function RecipeListItem(props: {
                     <DialogReviewRecipe
                         open={openReview}
                         setOpen={setOpenReview}
+                        recipeId={recipe._id}
+                        recipeTitle={recipe.name}
+                        callback={callbackReject}
+                    />
+                    <DialogUpdateImageRecipe
+                        open={openUpdateImage}
+                        setOpen={setOpenUpdateImage}
                         recipeId={recipe._id}
                         recipeTitle={recipe.name}
                         callback={callbackReject}

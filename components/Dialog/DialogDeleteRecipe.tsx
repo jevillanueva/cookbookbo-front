@@ -21,7 +21,7 @@ export default function DialogDeleteRecipe(props: {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDelete = async () => {
+    const handleAction = async () => {
         setLoading(true);
         const response = await deleteRecipesUser(token, recipeId);
         if (response.error) {
@@ -65,7 +65,7 @@ export default function DialogDeleteRecipe(props: {
                 <Button onClick={handleClose} autoFocus disabled={loading}>
                     Cerrar
                 </Button>
-                <LoadingButton onClick={handleDelete} color="error" loading={loading}>
+                <LoadingButton onClick={handleAction} color="error" loading={loading}>
                     Eliminar
                 </LoadingButton>
             </DialogActions>

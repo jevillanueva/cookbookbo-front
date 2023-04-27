@@ -21,7 +21,7 @@ export default function DialogReviewRecipe(props: {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleDelete = async () => {
+    const handleAction = async () => {
         setLoading(true);
         const response = await reviewRecipeUser(token, recipeId);
         if (response.error) {
@@ -36,8 +36,8 @@ export default function DialogReviewRecipe(props: {
             variant: "success",
         });
         setLoading(false);
-        callback();
         handleClose();
+        callback();
     };
     return (
         <Dialog
@@ -64,7 +64,7 @@ export default function DialogReviewRecipe(props: {
                 <Button onClick={handleClose} autoFocus disabled={loading} color='primary'>
                     Cerrar
                 </Button>
-                <LoadingButton onClick={handleDelete} color="secondary" loading={loading}>
+                <LoadingButton onClick={handleAction} color="secondary" loading={loading}>
                     Enviar a revisión
                 </LoadingButton>
             </DialogActions>
