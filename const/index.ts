@@ -26,7 +26,7 @@ export type ImageProps = {
 }
 
 export type RecipeProps = {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
   lang: string;
@@ -38,7 +38,7 @@ export type RecipeProps = {
   category: string[];
   portion: number;
   preparation_time_minutes: number;
-  score: number;
+  score?: number;
   preparation: PreparationProps[];
   image?: ImageProps;
   published?: boolean;

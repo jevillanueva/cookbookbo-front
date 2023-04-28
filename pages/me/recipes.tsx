@@ -14,7 +14,6 @@ import { NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
-import AddIcon from '@mui/icons-material/Add';
 import CommonLayout from "components/Layout";
 import RecipeList from "components/List/RecipeList";
 import SearchForm from "components/Forms/searchForm";
@@ -26,14 +25,8 @@ import {
     userRecipesPublishedQuery,
     userRecipesRejectedQuery
 } from "selectors";
-const fabStyle = {
-    margin: 0,
-    top: 'auto',
-    right: 16,
-    bottom: 16,
-    left: 'auto',
-    position: 'fixed',
-}
+import DialogRecipe from "components/Dialog/DialogRecipe";
+
 const PAGE_SIZE = 10;
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -61,6 +54,8 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 const Recipes = () => {
+    const [idToEdit, setIdToEdit] = React.useState(undefined);
+
     const [searchPublished, setSearchRecipePublishedState] = useRecoilState(searchRecipeUserPublishedState);
     const [searchNotRequested, setSearchRecipeNotRequestedState] = useRecoilState(searchRecipeUserNotRequestedState);
     const [searchNotReviewed, setSearchRecipeNotReviewedState] = useRecoilState(searchRecipeUserNotReviewedState);
@@ -223,12 +218,16 @@ const Recipes = () => {
                     </Grid>
                 </TabPanel>
             </Container>
+            <DialogRecipe
+                idToEdit={idToEdit}
+                callback={
+                    () => {
+                        setSearchRecipeNotRequestedState({ search: searchNotRequested.search });
+                    }
+                } />
 
 
 
-            <Fab sx={fabStyle} aria-label={"new recipe"} color={"primary"}>
-                <AddIcon />
-            </Fab>
 
         </Box>
     )

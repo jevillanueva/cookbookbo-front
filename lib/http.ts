@@ -220,3 +220,24 @@ export async function changeImageRecipeUser(access_token: string, id: string, fi
     }
   }
 }
+
+export async function postNewRecipeUser(access_token: string, recipe: RecipeProps): Promise<{ message?: any, error?: any }> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.post(`${API_URL}/recipe/user/public`, recipe, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 201) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { message: "" };
+  } catch (error) {
+    try {
+      if (error.response.data.message) {
+        return { error, message: error.response.data.message };
+      }
+      return { error, message: error.message };
+    } catch (e) {
+      console.error(e);
+      return { error, message: e.message };
+    }
+  }
+}
