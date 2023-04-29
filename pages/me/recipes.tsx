@@ -83,25 +83,25 @@ const Recipes = () => {
     const recipeListLoadablePublished = useRecoilValueLoadable(userRecipesPublishedQuery);
 
     useEffect(() => {
-        let searchElement = document.getElementById("searchNotRequested");
+        let searchElement = document.getElementById("searchNotRequested") as HTMLInputElement;
         if (searchElement) {
             searchElement.value = searchNotRequested.search;
         }
     })
     useEffect(() => {
-        let searchElement = document.getElementById("searchNotReviewed");
+        let searchElement = document.getElementById("searchNotReviewed") as HTMLInputElement;
         if (searchElement) {
             searchElement.value = searchNotReviewed.search;
         }
     })
     useEffect(() => {
-        let searchElement = document.getElementById("searchRejected");
+        let searchElement = document.getElementById("searchRejected") as HTMLInputElement;
         if (searchElement) {
             searchElement.value = searchRejected.search;
         }
     })
     useEffect(() => {
-        let searchElement = document.getElementById("searchPublished");
+        let searchElement = document.getElementById("searchPublished") as HTMLInputElement;
         if (searchElement) {
             searchElement.value = searchPublished.search;
         }

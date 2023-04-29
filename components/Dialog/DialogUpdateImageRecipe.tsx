@@ -18,10 +18,14 @@ export default function DialogUpdateImageRecipe(props: {
     const [token] = useRecoilState(accessTokenState);
     const { open, setOpen, recipeId, recipeTitle, callback = () => { } } = props;
     const [loading, setLoading] = React.useState(false);
-    const [selectedFile, setSelectedFile] = React.useState(null);
+    const [selectedFile, setSelectedFile] = React.useState({name:""});
     const { enqueueSnackbar } = useSnackbar();
-    const handleFileChange = (event) => {
+    const handleFileChange = (event: any ) => {
         const file = event.target.files[0];
+        if (!file){
+            setSelectedFile({name:""});
+            return;
+        }
         setSelectedFile(file);
     };
     const handleClose = () => {
@@ -61,7 +65,7 @@ export default function DialogUpdateImageRecipe(props: {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <Typography color="secondary">
-                            <b>"{recipeTitle}"</b>
+                            <b>{`"${recipeTitle}"`}</b>
                         </Typography>
                         <Typography >
                             {"Se recomienda imágenes inferiores a 3 MB"}

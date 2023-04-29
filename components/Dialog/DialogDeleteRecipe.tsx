@@ -54,7 +54,7 @@ export default function DialogDeleteRecipe(props: {
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     <Typography color="error">
-                    <b>"{recipeTitle}"</b>
+                    <b>{`"${recipeTitle}"`}</b>
                     </Typography>
                     <Typography>
                     {`Esta operación no se puede deshacer. ¿Estás seguro de que quieres eliminar esta receta?`}

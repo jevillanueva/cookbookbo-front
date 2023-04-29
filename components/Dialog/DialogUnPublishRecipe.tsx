@@ -53,7 +53,7 @@ export default function DialogUnPublishRecipe(props: {
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     <Typography color="error">
-                    <b>"{recipeTitle}"</b>
+                    <b>{`"${recipeTitle}"`}</b>
                     </Typography>
                     <Typography>
                     {`Se cancelará la publicación de la receta, no se mostrará abierta al público`}

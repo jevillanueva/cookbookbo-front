@@ -91,7 +91,7 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const [, setAccessTokenState] = useRecoilState(accessTokenState);
+  const [token, setAccessTokenState] = useRecoilState(accessTokenState);
 
 
   const menuId = "primary-search-account-menu";
@@ -131,7 +131,7 @@ export default function PrimarySearchAppBar() {
           </Link>
           <a href={`/api/auth/signout`} onClick={(e) => {
             e.preventDefault()
-            fetchSignOutAPI(session.accessToken);
+            fetchSignOutAPI(token);
             signOut({ callbackUrl: `${window.location.origin}` });
           }}>
             <MenuItem onClick={handleMenuClose}>Salir</MenuItem>
@@ -191,8 +191,8 @@ export default function PrimarySearchAppBar() {
   };
   const [searchBar] = useRecoilState(searchBarVisible);
   useEffect(() => {
-    let bar = document.getElementById("search");
-    if (bar) {
+    let bar = document.getElementById("search") as HTMLInputElement;
+    if (bar && bar.value) {
       bar.value = search.search;
     }
   })
@@ -205,8 +205,9 @@ export default function PrimarySearchAppBar() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Link href="/">
-            <FoodBankIcon fontSize="large" sx={{ display: { md: "flex" }, mr: 1 }} />
+          <Link href="/" >
+            {/* <FoodBankIcon fontSize="large" sx={{ display: { md: "flex" }, mr: 1 }} /> */}
+            <Image src="/logo.svg" alt="logo" width={40} height={40} />
           </Link>
           <Link href="/">
             <Typography
@@ -214,6 +215,7 @@ export default function PrimarySearchAppBar() {
               noWrap
               component="a"
               sx={{
+                ml: 1.5,
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
@@ -229,7 +231,7 @@ export default function PrimarySearchAppBar() {
           </Link>
           {searchBar && (
             <form onSubmit={submitSearch}>
-              <Search>
+              <Search sx={{ml: 0.5}}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
@@ -255,7 +257,17 @@ export default function PrimarySearchAppBar() {
             >
               <Avatar>
                 {status === "authenticated" && session ?
-                  <Image src={session.user.image} alt={session.user.name} layout="fill" />
+                  <>
+                    {session.user.image !== null && session.user.image !== undefined ?
+                      <>
+                        {session.user.name !== null && session.user.name !== undefined ?
+                          <Image src={session.user.image} alt={session.user.name} layout="fill" /> :
+                          <Image src={session.user.image} alt="Usuario" layout="fill" />
+                        }
+                      </> :
+                      null}
+
+                  </>
                   :
                   <AccountCircle />
                 }
@@ -272,8 +284,18 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Avatar>
-                {status === "authenticated" && session ?
-                  <Image src={session.user.image} alt={session.user.name} layout="fill" />
+              {status === "authenticated" && session ?
+                  <>
+                    {session.user.image !== null && session.user.image !== undefined ?
+                      <>
+                        {session.user.name !== null && session.user.name !== undefined ?
+                          <Image src={session.user.image} alt={session.user.name} layout="fill" /> :
+                          <Image src={session.user.image} alt="Usuario" layout="fill" />
+                        }
+                      </> :
+                      null}
+
+                  </>
                   :
                   <MoreIcon />
                 }

@@ -45,12 +45,13 @@ const RecipeInfoSection = () => {
                     <Box>
                         <Grid container spacing={2}>
                             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-                                <Paper elevation={24} sx={{ width: "254px", height: "140px" }}>
+                                <Paper elevation={24} sx={{ width: "254px", height: "254px" }}>
                                     <Image
                                         src={imgSrc ? '/error_recipe.svg' : (data.image !== undefined && data.image !== null) ? data.image.url : '/error_recipe.svg'}
                                         alt={data.name}
                                         width={254}
-                                        height={140}
+                                        height={254}
+                                        objectFit="cover"
                                         onError={() => { setImgSrc(true) }}
                                     />
                                 </Paper>
@@ -228,8 +229,8 @@ const RecipeInfoSection = () => {
                     <Box>
                         <Grid container spacing={2}>
                             <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-                                <Paper elevation={24} sx={{ width: "254px", height: "140px" }}>
-                                    <Skeleton sx={{ height: "140px", transform: "none" }} />
+                                <Paper elevation={24} sx={{ width: "254px", height: "254px" }}>
+                                    <Skeleton sx={{ height: "254px", transform: "none" }} />
                                 </Paper>
                             </Grid>
                             <Grid item xl={8} lg={8} md={6} sm={12} xs={12}>

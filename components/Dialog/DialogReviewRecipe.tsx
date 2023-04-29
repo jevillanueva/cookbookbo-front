@@ -53,7 +53,7 @@ export default function DialogReviewRecipe(props: {
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     <Typography color="secondary">
-                    <b>"{recipeTitle}"</b>
+                    <b>{`"${recipeTitle}"`}</b>
                     </Typography>
                     <Typography>
                     {`Se enviará la receta para revisión para su posterior publicación`}

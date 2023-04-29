@@ -52,37 +52,30 @@ export default function RecipeListItem(props: {
     };
 
     const handleVisualizeRecipe = (id: string) => {
-        console.log(id)
         handleMenuClose();
     };
     const handleUnPublishRecipe = (id: string) => {
         setOpenUnPublish(true);
-        console.log(id)
         handleMenuClose();
     };
     const handleUnReviewRecipe = (id: string) => {
         setOpenUnReview(true);
-        console.log(id)
         handleMenuClose();
     };
     const handleReviewRecipe = (id: string) => {
         setOpenReview(true);
-        console.log(id)
         handleMenuClose();
     };
     const handleEditRecipe = (id: string) => {
         setIdToEdit(id);
-        console.log(id)
         handleMenuClose();
     };
     const handleEditPhotoRecipe = (id: string) => {
         setOpenUpdateImage(true);
-        console.log(id)
         handleMenuClose();
     };
     const handleDeleteRecipe = (id: string) => {
         setOpenDelete(true);
-        console.log(id)
         handleMenuClose();
     };
 
@@ -95,7 +88,7 @@ export default function RecipeListItem(props: {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
             >
-                <a href={`/me/recipes/${id}`} target="_blank">
+                <a href={`/me/recipes/${id}`} target="_blank" rel="noreferrer noopener">
                     <MenuItem onClick={() => handleVisualizeRecipe(id)}>
                         <ListItemIcon>
                             <RestaurantIcon fontSize="small" />
@@ -117,7 +110,7 @@ export default function RecipeListItem(props: {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
             >
-                <a href={`/me/recipes/${id}`} target="_blank">
+                <a href={`/me/recipes/${id}`} target="_blank" rel="noreferrer noopener">
                     <MenuItem onClick={() => handleVisualizeRecipe(id)}>
                         <ListItemIcon>
                             <RestaurantIcon fontSize="small" />
@@ -146,7 +139,7 @@ export default function RecipeListItem(props: {
                 onClose={handleMenuClose}
             >
                 <MenuItem onClick={() => handleVisualizeRecipe(id)}>
-                    <a href={`/me/recipes/${id}`} target="_blank">
+                    <a href={`/me/recipes/${id}`} target="_blank" rel="noreferrer noopener">
                         <ListItemIcon>
                             <RestaurantIcon fontSize="small" />
                         </ListItemIcon>Ver receta
@@ -184,7 +177,7 @@ export default function RecipeListItem(props: {
             <ListItemAvatar>
                 <Avatar>
                     {(recipe.image !== undefined && recipe.image !== null) ?
-                        <Image src={recipe.image.url} alt={recipe.image.name} layout="fill" />
+                        <Image src={recipe.image.url} alt={recipe.image.name} layout="fill" objectFit="cover" />
                         :
                         <RestaurantIcon />
                     }

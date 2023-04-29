@@ -108,7 +108,7 @@ export async function fetchSearchRecipesUser(access_token: string, data: {
       throw new Error(`${response.status} - ${response.data}`);
     }
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return { error, content: [], total: 0 };
   }
@@ -122,13 +122,13 @@ export async function deleteRecipesUser(access_token: string, id: string): Promi
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -143,13 +143,13 @@ export async function reviewRecipeUser(access_token: string, id: string): Promis
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -164,13 +164,13 @@ export async function unReviewRecipeUser(access_token: string, id: string): Prom
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -185,13 +185,13 @@ export async function unPublishRecipeUser(access_token: string, id: string): Pro
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -208,13 +208,13 @@ export async function changeImageRecipeUser(access_token: string, id: string, fi
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -224,18 +224,19 @@ export async function changeImageRecipeUser(access_token: string, id: string, fi
 export async function postNewRecipeUser(access_token: string, recipe: RecipeProps): Promise<{ message?: any, error?: any }> {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const response = await axios.post(`${API_URL}/recipe/user/public`, recipe, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    const  {_id , ...recipeData }  = recipe;
+    const response = await axios.post(`${API_URL}/recipe/user/public`, recipeData, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 201) {
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -250,13 +251,13 @@ export async function putRecipeUser(access_token: string ,recipe: RecipeProps ):
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { message: "" };
-  } catch (error) {
+  } catch (error: any) {
     try {
       if (error.response.data.message) {
         return { error, message: error.response.data.message };
       }
       return { error, message: error.message };
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       return { error, message: e.message };
     }
@@ -271,7 +272,7 @@ export async function getRecipeByIdUser(access_token: string, id: string): Promi
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { content: response.data };
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return { error, content: {} as RecipeProps };
   }

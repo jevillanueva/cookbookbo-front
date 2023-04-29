@@ -26,7 +26,7 @@ export type ImageProps = {
 }
 
 export type RecipeProps = {
-  _id?: string;
+  _id: string;
   name: string;
   description: string;
   lang: string;

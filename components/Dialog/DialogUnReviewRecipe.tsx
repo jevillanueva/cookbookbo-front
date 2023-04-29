@@ -53,7 +53,7 @@ export default function DialogUnReviewRecipe(props: {
             <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                     <Typography color="warning">
-                    <b>"{recipeTitle}"</b>
+                    <b>{`"${recipeTitle}"`}</b>
                     </Typography>
                     <Typography>
                     {`Se cancelará la revisión de la receta, no se revisará`}

@@ -16,7 +16,13 @@ import { IngredientProps, PreparationProps, RecipeProps } from 'const';
 import { accessTokenState } from 'atoms';
 import { useRecoilState } from 'recoil';
 import { getRecipeByIdUser, postNewRecipeUser, putRecipeUser } from 'lib/http';
-const Transition = forwardRef(function Transition(props, ref) {
+import { TransitionProps } from '@mui/material/transitions';
+const Transition = forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function DialogRecipe(props: {
@@ -35,6 +41,7 @@ export default function DialogRecipe(props: {
     const [token] = useRecoilState(accessTokenState);
 
     const defaultRecipe: RecipeProps = {
+        _id: "",
         name: "",
         description: "",
         lang: "es",
@@ -81,9 +88,8 @@ export default function DialogRecipe(props: {
             setFields([]);
             setLoading(true);
             const oldRecipe = await getRecipeByIdUser(token, idToEdit);
-            console.log(oldRecipe);
             if (oldRecipe.error) {
-                enqueueSnackbar(oldRecipe.message, {
+                enqueueSnackbar(oldRecipe.error, {
                     variant: "error",
                 });
                 return;
@@ -365,7 +371,7 @@ export default function DialogRecipe(props: {
                                                         <Typography variant='h6' color="secondary">Ingredientes</Typography>
                                                     </Grid>
                                                     {field.ingredients.map((ingredient, indexIngredient) => (
-                                                        <Grid item lg={12} md={12} xs={12}>
+                                                        <Grid item lg={12} md={12} xs={12} key={`ingredient-${index}-${indexIngredient}`}>
                                                             <Card variant="outlined" sx={{ borderColor: "secondary.main" }}>
                                                                 <CardHeader action={
                                                                     <IconButton aria-label="settings" onClick={() => deleteIngredient(index, indexIngredient)}>
@@ -427,9 +433,9 @@ export default function DialogRecipe(props: {
                                                                         <Grid item lg={4} md={12} xs={12}>
                                                                             <FormGroup key={`ing-${index}-${indexIngredient}`}>
                                                                                 <FormControlLabel
-                                                                                    control={<Checkbox value={ingredient.optional} />}
+                                                                                    control={<Checkbox value={ingredient.optional} onChange={(event) => handleChangeOptionalIngredient(index, indexIngredient, event.target.checked)} />}
                                                                                     label="Ingrediente opcional"
-                                                                                    onChange={(event) => handleChangeOptionalIngredient(index, indexIngredient, event.target.checked)} />
+                                                                                />
                                                                             </FormGroup>
                                                                         </Grid>
                                                                         <Grid item lg={4} md={12} xs={12}>
@@ -470,7 +476,7 @@ export default function DialogRecipe(props: {
                                                         <Typography variant='h6' color="secondary">Pasos</Typography>
                                                     </Grid>
                                                     {field.steps.map((step, indexStep) => (
-                                                        <Grid item lg={12} md={12} xs={12}>
+                                                        <Grid item lg={12} md={12} xs={12} key={`step-${index}-${indexStep}`}>
                                                             <Card variant='outlined' sx={{ borderColor: "secondary.main" }}>
                                                                 <CardHeader action={
                                                                     <IconButton aria-label="settings" onClick={() => deleteStep(index, indexStep)}>

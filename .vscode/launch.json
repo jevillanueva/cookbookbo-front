@@ -9,6 +9,12 @@
             "command": "npm run dev",
             "request": "launch",
             "type": "node-terminal"
+        },
+        {
+            "name": "Run Build",
+            "command": "npm run start",
+            "request": "launch",
+            "type": "node-terminal"
         }
     ]
 }

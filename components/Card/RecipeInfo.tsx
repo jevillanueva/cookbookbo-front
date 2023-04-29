@@ -28,13 +28,14 @@ export default function BasicCard(props: RecipeProps) {
     >
       <Box>
         {(image !== undefined && image !== null) && (
-          <CardMedia>
+          <CardMedia sx={{width: "254px", height: "140px"}}>
             <Image
               onError={() => setSrc('/error_recipe.svg')}
               src={src}
               alt={name}
               width={254}
               height={140}
+              objectFit="cover"
             />
           </CardMedia>
         )}

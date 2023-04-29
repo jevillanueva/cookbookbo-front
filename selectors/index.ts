@@ -1,7 +1,6 @@
 import { selector } from "recoil";
-import { accessTokenState, homePageQueryState, recipeDetailsIdState, searchRecipeState, searchRecipeUserNotRequestedQueryState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedQueryState, searchRecipeUserNotReviewedState, searchRecipeUserPublishedQueryState, searchRecipeUserPublishedState, searchRecipeUserRejectedQueryState, searchRecipeUserRejectedState, searchRecipeUserState } from "atoms";
+import { accessTokenState, homePageQueryState, recipeDetailsIdState, searchRecipeState, searchRecipeUserNotRequestedQueryState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedQueryState, searchRecipeUserNotReviewedState, searchRecipeUserPublishedQueryState, searchRecipeUserPublishedState, searchRecipeUserRejectedQueryState, searchRecipeUserRejectedState } from "atoms";
 import { fetchMe, fetchRecipeDetailsById, fetchSearchRecipes, fetchSearchRecipesUser } from "lib/http";
-import { useSession } from "next-auth/react";
 import { RecipeProps, UserProps } from "const";
 import { getRecipeByIdUser } from "lib/http";
 export const homePageQuery = selector({
@@ -67,7 +66,6 @@ export const userRecipesNotRequestedQuery = selector({
       const response = await fetchSearchRecipesUser(id, { search, page, size, state });
       return response;
     }
-    console.log(id)
     return { content: [], total: 0 };
   },
 });
@@ -112,7 +110,8 @@ export const recipeUserInfoQuery = selector({
       }
       return response;
     }
-    const defaultResponse : RecipeProps = {
+    const defaultResponse: RecipeProps = {
+      _id: "",
       category: [], tags: [],
       name: "",
       description: "",
