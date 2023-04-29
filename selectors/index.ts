@@ -2,7 +2,8 @@ import { selector } from "recoil";
 import { accessTokenState, homePageQueryState, recipeDetailsIdState, searchRecipeState, searchRecipeUserNotRequestedQueryState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedQueryState, searchRecipeUserNotReviewedState, searchRecipeUserPublishedQueryState, searchRecipeUserPublishedState, searchRecipeUserRejectedQueryState, searchRecipeUserRejectedState, searchRecipeUserState } from "atoms";
 import { fetchMe, fetchRecipeDetailsById, fetchSearchRecipes, fetchSearchRecipesUser } from "lib/http";
 import { useSession } from "next-auth/react";
-import { UserProps } from "const";
+import { RecipeProps, UserProps } from "const";
+import { getRecipeByIdUser } from "lib/http";
 export const homePageQuery = selector({
   key: "homePage",
   get: async ({ get }) => {
@@ -96,5 +97,34 @@ export const userRecipesRejectedQuery = selector({
       return response;
     }
     return { content: [], total: 0 };
+  },
+});
+
+export const recipeUserInfoQuery = selector({
+  key: "RecipeUserInfoQuery",
+  get: async ({ get }) => {
+    const id = get(accessTokenState);
+    if (id !== "") {
+      const recipeID = get(recipeDetailsIdState);
+      const response = await getRecipeByIdUser(id, recipeID);
+      if (response.error) {
+        throw response.error;
+      }
+      return response;
+    }
+    const defaultResponse : RecipeProps = {
+      category: [], tags: [],
+      name: "",
+      description: "",
+      lang: "",
+      owner: "",
+      publisher: "",
+      year: 0,
+      location: "",
+      portion: 0,
+      preparation_time_minutes: 0,
+      preparation: []
+    };
+    return { content: defaultResponse };
   },
 });

@@ -95,11 +95,13 @@ export default function RecipeListItem(props: {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
             >
-                <MenuItem onClick={() => handleVisualizeRecipe(id)}>
-                    <ListItemIcon>
-                        <RestaurantIcon fontSize="small" />
-                    </ListItemIcon>Ver receta
-                </MenuItem>
+                <a href={`/me/recipes/${id}`} target="_blank">
+                    <MenuItem onClick={() => handleVisualizeRecipe(id)}>
+                        <ListItemIcon>
+                            <RestaurantIcon fontSize="small" />
+                        </ListItemIcon>Ver receta
+                    </MenuItem>
+                </a>
                 <MenuItem onClick={() => handleUnPublishRecipe(id)}>
                     <ListItemIcon>
                         <PublicOffIcon fontSize="small" />
@@ -115,11 +117,13 @@ export default function RecipeListItem(props: {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
             >
-                <MenuItem onClick={() => handleVisualizeRecipe(id)}>
-                    <ListItemIcon>
-                        <RestaurantIcon fontSize="small" />
-                    </ListItemIcon>Ver receta
-                </MenuItem>
+                <a href={`/me/recipes/${id}`} target="_blank">
+                    <MenuItem onClick={() => handleVisualizeRecipe(id)}>
+                        <ListItemIcon>
+                            <RestaurantIcon fontSize="small" />
+                        </ListItemIcon>Ver receta
+                    </MenuItem>
+                </a>
                 <MenuItem onClick={() => handleUnReviewRecipe(id)}>
                     <ListItemIcon>
                         <PublicOffIcon fontSize="small" />
@@ -142,9 +146,11 @@ export default function RecipeListItem(props: {
                 onClose={handleMenuClose}
             >
                 <MenuItem onClick={() => handleVisualizeRecipe(id)}>
-                    <ListItemIcon>
-                        <RestaurantIcon fontSize="small" />
-                    </ListItemIcon>Ver receta
+                    <a href={`/me/recipes/${id}`} target="_blank">
+                        <ListItemIcon>
+                            <RestaurantIcon fontSize="small" />
+                        </ListItemIcon>Ver receta
+                    </a>
                 </MenuItem>
                 <MenuItem onClick={() => handleEditRecipe(id)}>
                     <ListItemIcon>
