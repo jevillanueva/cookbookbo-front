@@ -14,7 +14,7 @@ export default function SearchForm(props: { submitSearch: any, idSearch: string 
                         <InputAdornment position="end">
                             <IconButton
                                 type="submit"
-                                aria-label="toggle password visibility"
+                                aria-label="search option"
                                 edge="end"
                             >
                                 <SearchIcon />
