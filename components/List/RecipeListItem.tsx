@@ -28,12 +28,14 @@ export default function RecipeListItem(props: {
     callbackUnReview: () => void,
     callbackUnRequest: () => void,
     callbackReject: () => void,
+    setIdToEdit: (id: string) => void,
 }) {
     const { recipe, state,
         callbackPublished = () => { },
         callbackUnReview = () => { },
         callbackUnRequest = () => { },
         callbackReject = () => { },
+        setIdToEdit = (undefined) => { }
     } = props;
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [openDelete, setOpenDelete] = useState(false);
@@ -69,6 +71,7 @@ export default function RecipeListItem(props: {
         handleMenuClose();
     };
     const handleEditRecipe = (id: string) => {
+        setIdToEdit(id);
         console.log(id)
         handleMenuClose();
     };

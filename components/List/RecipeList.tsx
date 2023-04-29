@@ -17,6 +17,7 @@ export default function RecipeList(props: {
     callbackUnReview?: () => void,
     callbackUnRequest?: () => void,
     callbackReject?: () => void,
+    setIdToEdit?: (id:string) => void,
 }) {
     const { data, page_size = 10, page, state, setPaginationQueryData,
         paginationQueryData,
@@ -24,6 +25,7 @@ export default function RecipeList(props: {
         callbackUnReview = () => { },
         callbackUnRequest = () => { },
         callbackReject = () => { },
+        setIdToEdit = () => { }
     } = props;
     switch (data.state) {
         case "hasValue":
@@ -36,6 +38,7 @@ export default function RecipeList(props: {
                                 callbackUnReview={callbackUnReview}
                                 callbackUnRequest={callbackUnRequest}
                                 callbackReject={callbackReject}
+                                setIdToEdit={setIdToEdit}
                             />
                         ))}
                     </List>

@@ -1,4 +1,5 @@
 import { AppBar, Box, Button, Container, Fab, Grid, Tab, Tabs, Typography } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import {
     searchBarVisible,
     searchRecipeUserNotRequestedQueryState,
@@ -54,7 +55,17 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 const Recipes = () => {
-    const [idToEdit, setIdToEdit] = React.useState(undefined);
+    const fabStyle = {
+        margin: 0,
+        top: 'auto',
+        right: 16,
+        bottom: 16,
+        left: 'auto',
+        position: 'fixed',
+    }
+    const [open, setOpen] = React.useState(false);
+    const [idToEdit, setIdToEdit] = React.useState("");
+    const [value, setValue] = React.useState(0);
 
     const [searchPublished, setSearchRecipePublishedState] = useRecoilState(searchRecipeUserPublishedState);
     const [searchNotRequested, setSearchRecipeNotRequestedState] = useRecoilState(searchRecipeUserNotRequestedState);
@@ -111,7 +122,15 @@ const Recipes = () => {
         e.preventDefault();
         setSearchRecipeRejectedState({ search: e.target[0].value })
     };
-    const [value, setValue] = React.useState(0);
+
+    const handleClickOpen = () => {
+        setIdToEdit("");
+        setOpen(true);
+    };
+    const handleOpenEdit = (id: string) => {
+        setIdToEdit(id);
+        setOpen(true);
+    };
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -158,6 +177,7 @@ const Recipes = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <RecipeList
+                                setIdToEdit={handleOpenEdit}
                                 data={recipeListLoadableNotRequested}
                                 page_size={PAGE_SIZE}
                                 page={srNotRequestedQueryState.page}
@@ -176,6 +196,7 @@ const Recipes = () => {
                         </Grid>
                         <Grid item xs={12} sm={12} md={12} lg={12}>
                             <RecipeList data={recipeListLoadableRejected} page_size={PAGE_SIZE}
+                                setIdToEdit={handleOpenEdit}
                                 page={srRejectedQueryState.page}
                                 paginationQueryData={srRejectedQueryState}
                                 setPaginationQueryData={setSearchRecipeUserRejectedQueryState}
@@ -218,11 +239,18 @@ const Recipes = () => {
                     </Grid>
                 </TabPanel>
             </Container>
+            <Fab sx={fabStyle} aria-label={"new recipe"} color={"secondary"} onClick={handleClickOpen}>
+                <AddIcon />
+            </Fab>
             <DialogRecipe
+                open={open}
+                setOpen={setOpen}
                 idToEdit={idToEdit}
                 callback={
                     () => {
                         setSearchRecipeNotRequestedState({ search: searchNotRequested.search });
+                        setSearchRecipeRejectedState({ search: searchRejected.search });
+                        setIdToEdit("");
                     }
                 } />
 

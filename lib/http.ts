@@ -202,7 +202,7 @@ export async function changeImageRecipeUser(access_token: string, id: string, fi
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
     const fd = new FormData();
-    fd.append("file", file, file.name )
+    fd.append("file", file, file.name)
     const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/image`, fd, { "headers": { "Authorization": `Bearer ${access_token}`, "Content-Type": "application/x-www-form-urlencoded" } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -239,5 +239,40 @@ export async function postNewRecipeUser(access_token: string, recipe: RecipeProp
       console.error(e);
       return { error, message: e.message };
     }
+  }
+}
+
+export async function putRecipeUser(access_token: string ,recipe: RecipeProps ): Promise<{ message?: any, error?: any }> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.put(`${API_URL}/recipe/user/public`, recipe, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { message: "" };
+  } catch (error) {
+    try {
+      if (error.response.data.message) {
+        return { error, message: error.response.data.message };
+      }
+      return { error, message: error.message };
+    } catch (e) {
+      console.error(e);
+      return { error, message: e.message };
+    }
+  }
+}
+
+export async function getRecipeByIdUser(access_token: string, id: string): Promise<{ content: RecipeProps; error?: any }> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/recipe/user/public/${id}`, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
+  } catch (error) {
+    console.error(error);
+    return { error, content: {} as RecipeProps };
   }
 }
