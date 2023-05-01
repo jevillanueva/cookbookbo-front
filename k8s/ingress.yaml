@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cookbookbo-frontend
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - cocinabo.jevillanueva.dev
+    secretName: quickstart-example-tls
+  rules:
+  - host: cocinabo.jevillanueva.dev
+    http:
+      paths:
+      - backend:
+          service:
+            name: cookbookbo-frontend
+            port:
+              number: 3000
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}
