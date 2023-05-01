@@ -7,6 +7,7 @@ README.md
 .git
 .github
 .vscode
-*.env
+.env
 .env.sample
 .gitignore
+k8s
