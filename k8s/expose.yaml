@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cookbookbo-front-dev
+  name: cookbookbo-frpmt-dev
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    nodePort: 30007  #(default: 30000-32767)
+  selector:
+    app: cookbookbo-front
+  type: NodePort
+status:
+  loadBalancer: {}
