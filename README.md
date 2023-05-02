@@ -21,7 +21,8 @@ Para producción conn Kubernetes se tienen en la carpeta k8s los archivos básic
 ```bash
 cp .env.sample .env
 # llenar los datos de .env
-kubectl create secret generic cookbookbo-frontend --from-env-file=.env
+kubectl create secret generic cookbookbo-front --from-env-file=.env --dry-run=client -o yaml > k8s/secret.prod.yaml
+kubectl create -f k8s/secret.prod.yaml
 ```
 
 Levantar el deployment

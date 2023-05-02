@@ -1,6 +1,11 @@
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { RecipeProps, UserProps } from "const";
+import getConfig from 'next/config';
+
+const {
+  publicRuntimeConfig: { processEnv },
+} = getConfig();
+
 // import { BookProps, BookDetailProps, BookRatingsProps } from "const";
 export async function fetchSearchRecipes(data: {
   search?: string;
@@ -8,7 +13,8 @@ export async function fetchSearchRecipes(data: {
   size?: number;
 }): Promise<{ content: RecipeProps[]; total: number; error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const queryArray = Object.keys(data).reduce((prev: string[], item) => {
       const value = data[item as keyof typeof data];
       if (value) {
@@ -31,7 +37,8 @@ export async function fetchRecipeDetailsById(id: string): Promise<{
   error?: any;
 }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.get(`${API_URL}/recipe/public/${id}`);
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -44,7 +51,8 @@ export async function fetchRecipeDetailsById(id: string): Promise<{
 }
 export async function fetchLoginAPI(access_token: string) {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.get(`${API_URL}/google/login/public`, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -58,7 +66,8 @@ export async function fetchLoginAPI(access_token: string) {
 
 export async function fetchSignOutAPI(access_token: string) {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.get(`${API_URL}/google/logout/public`, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -76,7 +85,8 @@ export async function fetchMe(access_token: string): Promise<{
   error?: any;
 }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.get(`${API_URL}/users/me/public`, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -95,7 +105,8 @@ export async function fetchSearchRecipesUser(access_token: string, data: {
   state?: string;
 }): Promise<{ content: RecipeProps[]; total: number; error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const queryArray = Object.keys(data).reduce((prev: string[], item) => {
       const value = data[item as keyof typeof data];
       if (value) {
@@ -116,7 +127,8 @@ export async function fetchSearchRecipesUser(access_token: string, data: {
 
 export async function deleteRecipesUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.delete(`${API_URL}/recipe/user/public/${id}`, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 204) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -137,7 +149,8 @@ export async function deleteRecipesUser(access_token: string, id: string): Promi
 
 export async function reviewRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/review`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -158,7 +171,8 @@ export async function reviewRecipeUser(access_token: string, id: string): Promis
 
 export async function unReviewRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unreview`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -179,7 +193,8 @@ export async function unReviewRecipeUser(access_token: string, id: string): Prom
 
 export async function unPublishRecipeUser(access_token: string, id: string): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/unpublish`, {}, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -200,7 +215,8 @@ export async function unPublishRecipeUser(access_token: string, id: string): Pro
 
 export async function changeImageRecipeUser(access_token: string, id: string, file: any): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const fd = new FormData();
     fd.append("file", file, file.name)
     const response = await axios.patch(`${API_URL}/recipe/user/public/${id}/image`, fd, { "headers": { "Authorization": `Bearer ${access_token}`, "Content-Type": "application/x-www-form-urlencoded" } });
@@ -223,8 +239,9 @@ export async function changeImageRecipeUser(access_token: string, id: string, fi
 
 export async function postNewRecipeUser(access_token: string, recipe: RecipeProps): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-    const  {_id , ...recipeData }  = recipe;
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
+    const { _id, ...recipeData } = recipe;
     const response = await axios.post(`${API_URL}/recipe/user/public`, recipeData, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 201) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -243,9 +260,10 @@ export async function postNewRecipeUser(access_token: string, recipe: RecipeProp
   }
 }
 
-export async function putRecipeUser(access_token: string ,recipe: RecipeProps ): Promise<{ message?: any, error?: any }> {
+export async function putRecipeUser(access_token: string, recipe: RecipeProps): Promise<{ message?: any, error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.put(`${API_URL}/recipe/user/public`, recipe, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -266,7 +284,8 @@ export async function putRecipeUser(access_token: string ,recipe: RecipeProps ):
 
 export async function getRecipeByIdUser(access_token: string, id: string): Promise<{ content: RecipeProps; error?: any }> {
   try {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const { NEXT_PUBLIC_API_URL } = processEnv;
+    const API_URL = NEXT_PUBLIC_API_URL
     const response = await axios.get(`${API_URL}/recipe/user/public/${id}`, { "headers": { "Authorization": `Bearer ${access_token}` } });
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);

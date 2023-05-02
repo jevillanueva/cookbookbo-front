@@ -1,11 +1,11 @@
 import "../styles/globals.css";
 import { SessionProvider } from "next-auth/react"
-import type { AppProps } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import { useEffect } from "react";
 import { SnackbarProvider } from "notistack";
 import { Session } from "next-auth";
-
+import App from 'next/app'
 function DebugObserver(): any {
   const snapshot = useRecoilSnapshot();
   useEffect(() => {
@@ -30,5 +30,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
     </SessionProvider>
   );
 }
-
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);
+  return { ...appProps }
+}
 export default MyApp;
