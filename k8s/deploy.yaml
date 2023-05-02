@@ -2,27 +2,27 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cookbookbo-frontend
-  name: cookbookbo-frontend
+    app: cookbookbo-front
+  name: cookbookbo-front
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cookbookbo-frontend
+      app: cookbookbo-front
   strategy: {}
   template:
     metadata:
       labels:
-        app: cookbookbo-frontend
+        app: cookbookbo-front
     spec:
       containers:
-      - image: jevillanueva/cookbookbo-frontend:latest
-        name: cookbookbo-frontend
+      - image: jevillanueva/cookbookbo-front:latest
+        name: cookbookbo-front
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
         envFrom:
           - secretRef:
-              name: cookbookbo-frontend
+              name: cookbookbo-front
         resources: {}
 status: {}

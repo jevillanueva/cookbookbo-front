@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: cookbookbo-frontend
-  name: cookbookbo-frontend
+    app: cookbookbo-front
+  name: cookbookbo-front
 spec:
   ports:
   - name: 3000-3000
@@ -11,6 +11,6 @@ spec:
     protocol: TCP
     targetPort: 3000
   selector:
-    app: cookbookbo-frontend
+    app: cookbookbo-front
 status:
   loadBalancer: {}

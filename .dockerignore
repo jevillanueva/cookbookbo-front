@@ -8,6 +8,6 @@ README.md
 .github
 .vscode
 .env
-.env.sample
+.env.example
 .gitignore
 k8s
