@@ -266,8 +266,11 @@ export async function putRecipeUser(access_token: string ,recipe: RecipeProps ):
 export async function getRecipeByIdUser(access_token: string, id: string): Promise<{ content: RecipeProps; error?: any }> {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL
-_API_URL
-ponse.data };
+    const response = await axios.get(`${API_URL}/recipe/user/public/${id}`, { "headers": { "Authorization": `Bearer ${access_token}` } });
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
   } catch (error: any) {
     console.error(error);
     return { error, content: {} as RecipeProps };
