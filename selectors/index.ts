@@ -1,7 +1,7 @@
 import { selector } from "recoil";
-import { accessTokenState, homePageQueryState, recipeDetailsIdState, searchRecipeState, searchRecipeUserNotRequestedQueryState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedQueryState, searchRecipeUserNotReviewedState, searchRecipeUserPublishedQueryState, searchRecipeUserPublishedState, searchRecipeUserRejectedQueryState, searchRecipeUserRejectedState } from "atoms";
-import { fetchMe, fetchRecipeDetailsById, fetchSearchRecipes, fetchSearchRecipesUser } from "lib/http";
-import { RecipeProps, UserProps } from "const";
+import { accessTokenState, homePageQueryState, pageDetailsIdState, recipeDetailsIdState, searchRecipeState, searchRecipeUserNotRequestedQueryState, searchRecipeUserNotRequestedState, searchRecipeUserNotReviewedQueryState, searchRecipeUserNotReviewedState, searchRecipeUserPublishedQueryState, searchRecipeUserPublishedState, searchRecipeUserRejectedQueryState, searchRecipeUserRejectedState } from "atoms";
+import { fetchMe, fetchPageDetailsById, fetchRecipeDetailsById, fetchSearchRecipes, fetchSearchRecipesUser } from "lib/http";
+import { PageProps, RecipeProps, UserProps } from "const";
 import { getRecipeByIdUser } from "lib/http";
 export const homePageQuery = selector({
   key: "homePage",
@@ -17,6 +17,9 @@ export const recipeInfoQuery = selector({
   key: "RecipeInfoQuery",
   get: async ({ get }) => {
     const recipeID = get(recipeDetailsIdState);
+    if (recipeID === "") {
+      return { content: {} as RecipeProps };
+    }
     const response = await fetchRecipeDetailsById(recipeID);
     if (response.error) {
       throw response.error;
@@ -125,5 +128,20 @@ export const recipeUserInfoQuery = selector({
       preparation: []
     };
     return { content: defaultResponse };
+  },
+});
+
+export const pageInfoQuery = selector({
+  key: "PageInfoQuery",
+  get: async ({ get }) => {
+    const pageID = get(pageDetailsIdState);
+    if (pageID === "") {
+      return { content: {} as PageProps };
+    }
+    const response = await fetchPageDetailsById(pageID);
+    if (response.error) {
+      throw response.error;
+    }
+    return response;
   },
 });

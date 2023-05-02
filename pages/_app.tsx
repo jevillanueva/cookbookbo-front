@@ -5,6 +5,7 @@ import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import { useEffect } from "react";
 import { SnackbarProvider } from "notistack";
 import { Session } from "next-auth";
+import FooterBar from "components/Layout/footer";
 
 function DebugObserver(): any {
   const snapshot = useRecoilSnapshot();
@@ -25,6 +26,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ s
         <DebugObserver />
         <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
           <Component {...pageProps} />
+          <FooterBar/>
         </SnackbarProvider>
       </RecoilRoot>
     </SessionProvider>

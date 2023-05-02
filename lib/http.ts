@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RecipeProps, UserProps } from "const";
+import { PageProps, RecipeProps, UserProps } from "const";
 // import { BookProps, BookDetailProps, BookRatingsProps } from "const";
 export async function fetchSearchRecipes(data: {
   search?: string;
@@ -274,5 +274,22 @@ export async function getRecipeByIdUser(access_token: string, id: string): Promi
   } catch (error: any) {
     console.error(error);
     return { error, content: {} as RecipeProps };
+  }
+}
+
+export async function fetchPageDetailsById(id: string): Promise<{
+  content: PageProps;
+  error?: any;
+}> {
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/pages/${id}`);
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
+  } catch (error) {
+    console.error(error);
+    return { error, content: {} as PageProps };
   }
 }

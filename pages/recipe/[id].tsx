@@ -80,7 +80,7 @@ const RecipeInfoSection = () => {
                                             color="text.secondary"
                                             component="span"
                                         >
-                                            {data.owner.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
+                                            {data.owner}
                                         </Typography>
                                     </Typography>
                                     <Typography>
@@ -101,7 +101,7 @@ const RecipeInfoSection = () => {
                                             color="text.secondary"
                                             component="span"
                                         >
-                                            {data.category.map((tag) => tag).join(`, `)}
+                                            {data.category && data.category.map((tag) => tag).join(`, `)}
                                         </Typography>
                                     </Typography>
                                     <Typography>
@@ -111,7 +111,7 @@ const RecipeInfoSection = () => {
                                             color="text.secondary"
                                             component="span"
                                         >
-                                            {data.tags.map((tag) => tag).join(`, `)}
+                                            {data.tags && data.tags.map((tag) => tag).join(`, `)}
                                         </Typography>
                                     </Typography>
                                     <Typography>
@@ -175,7 +175,7 @@ const RecipeInfoSection = () => {
                     <Box>
 
                         <Stack >
-                            {data.preparation.map((step, index) => (
+                            {data.preparation && data.preparation.map((step, index) => (
                                 <>
                                     <Typography key={index} variant="h5" sx={{ textTransform: 'uppercase' }}>
                                         {`${index + 1}. ${step.name}`}
@@ -403,12 +403,13 @@ const RecipeDetails: NextPage = () => {
     const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
     const [, setRecipeDetailsId] = useRecoilState(recipeDetailsIdState);
     // const bookDetailsLodable = useRecoilValueLoadable(bookDetailsQuery);
-useRecoilState
     useEffect(() => {
         id && setRecipeDetailsId(id as string);
-        setSearchBarVisible(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
+    useEffect(() => {
+        setSearchBarVisible(false);
+    });
 
     return (
         <>

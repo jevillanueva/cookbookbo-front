@@ -54,3 +54,10 @@ export type UserProps = {
   admin:boolean;
   disabled:boolean;
 };
+
+export type PageProps = {
+  _id: string;
+  slug: string;
+  title: string;
+  html: string;
+}

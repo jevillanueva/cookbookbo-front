@@ -237,6 +237,7 @@ export default function DialogRecipe(props: {
     };
     useEffect(() => {
         loadRecipe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [idToEdit]);
 
     return (

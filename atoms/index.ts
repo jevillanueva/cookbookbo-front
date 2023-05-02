@@ -66,3 +66,8 @@ export const searchRecipeUserRejectedQueryState = atom({
   key: "searchRecipeUserRejectedQueryState",
   default: { page: 1, size: 10 },
 });
+
+export const pageDetailsIdState = atom({
+  key: "pageDetailsIdState",
+  default: "",
+});

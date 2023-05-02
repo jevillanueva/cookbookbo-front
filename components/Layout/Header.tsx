@@ -200,6 +200,7 @@ export default function PrimarySearchAppBar() {
     if (status === "authenticated") {
       setAccessTokenState(session.accessToken);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, status]);
   return (
     <>
@@ -231,7 +232,7 @@ export default function PrimarySearchAppBar() {
           </Link>
           {searchBar && (
             <form onSubmit={submitSearch}>
-              <Search sx={{ml: 0.5}}>
+              <Search sx={{ ml: 0.5 }}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
@@ -284,7 +285,7 @@ export default function PrimarySearchAppBar() {
               color="inherit"
             >
               <Avatar>
-              {status === "authenticated" && session ?
+                {status === "authenticated" && session ?
                   <>
                     {session.user.image !== null && session.user.image !== undefined ?
                       <>
