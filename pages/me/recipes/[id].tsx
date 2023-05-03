@@ -51,7 +51,7 @@ const RecipeInfoSection = () => {
                                         alt={data.name}
                                         width={254}
                                         height={254}
-                                        style={{objectFit: 'cover'}}
+                                        style={{ objectFit: 'cover' }}
                                         onError={() => { setImgSrc(true) }}
                                     />
                                 </Paper>
@@ -154,6 +154,18 @@ const RecipeInfoSection = () => {
                                             {data.publisher}
                                         </Typography>
                                     </Typography>
+                                    {data.description && data.description !== "" && (
+                                        <Typography>
+                                            {`Descripción: `}
+                                            <Typography
+                                                sx={{ fontSize: 14 }}
+                                                color="text.secondary"
+                                                component="span"
+                                            >
+                                                {data.description}
+                                            </Typography>
+                                        </Typography>
+                                    )}
                                 </Stack>
                             </Grid>
                         </Grid>
@@ -391,7 +403,7 @@ const RecipeDetails: NextPage = () => {
     const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
     const [, setRecipeDetailsId] = useRecoilState(recipeDetailsIdState);
     // const bookDetailsLodable = useRecoilValueLoadable(bookDetailsQuery);
-useRecoilState
+    useRecoilState
     useEffect(() => {
         id && setRecipeDetailsId(id as string);
         setSearchBarVisible(false);

@@ -64,7 +64,7 @@ const RecipeInfoSection = () => {
                                         alt={data.name}
                                         width={254}
                                         height={254}
-                                        style={{objectFit: 'cover'}}
+                                        style={{ objectFit: 'cover' }}
                                         onError={() => { setImgSrc(true) }}
                                     />
                                 </Paper>
@@ -167,6 +167,18 @@ const RecipeInfoSection = () => {
                                             {data.publisher}
                                         </Typography>
                                     </Typography>
+                                    {data.description && data.description !== "" && (
+                                        <Typography>
+                                            {`Descripción: `}
+                                            <Typography
+                                                sx={{ fontSize: 14 }}
+                                                color="text.secondary"
+                                                component="span"
+                                            >
+                                                {data.description}
+                                            </Typography>
+                                        </Typography>
+                                    )}
                                 </Stack>
                             </Grid>
                         </Grid>
@@ -177,7 +189,7 @@ const RecipeInfoSection = () => {
 
                         <Stack >
                             {data.preparation && data.preparation.map((step, index) => (
-                                <Box  key={index}>
+                                <Box key={index}>
                                     <Typography key={index} variant="h5" sx={{ textTransform: 'uppercase' }}>
                                         {`${index + 1}. ${step.name}`}
                                     </Typography>
@@ -404,8 +416,8 @@ interface PageProps {
     title: string;
     description: string;
     image: string;
-  }
-const RecipeDetails: NextPage<PageProps> = ({title,description,image} ) => {
+}
+const RecipeDetails: NextPage<PageProps> = ({ title, description, image }) => {
     const router = useRouter();
     const { id } = router.query;
     const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
@@ -426,15 +438,15 @@ const RecipeDetails: NextPage<PageProps> = ({title,description,image} ) => {
                 <link rel="icon" href="/favicon.png" />
                 <meta name="description" content={description} />
 
-                <meta property="og:type" content="website"/>
+                <meta property="og:type" content="website" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
-                <meta name="image" property="og:image" content={image}/>
+                <meta name="image" property="og:image" content={image} />
 
-                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={description} />
-                <meta name="twitter:image" content={image}/>
+                <meta name="twitter:image" content={image} />
             </Head>
 
             <CommonLayout>
