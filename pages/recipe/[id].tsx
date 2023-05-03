@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Divider from "@mui/material/Divider";
 import { Grid, List, ListItem, ListItemText } from "@mui/material";
+import { fetchRecipeMetaById } from "lib/http";
 const RecipeInfoSection = () => {
 
     const recipeDetailsLodable = useRecoilValueLoadable(recipeInfoQuery);
@@ -63,7 +64,7 @@ const RecipeInfoSection = () => {
                                         alt={data.name}
                                         width={254}
                                         height={254}
-                                        objectFit="cover"
+                                        style={{objectFit: 'cover'}}
                                         onError={() => { setImgSrc(true) }}
                                     />
                                 </Paper>
@@ -176,7 +177,7 @@ const RecipeInfoSection = () => {
 
                         <Stack >
                             {data.preparation && data.preparation.map((step, index) => (
-                                <>
+                                <Box  key={index}>
                                     <Typography key={index} variant="h5" sx={{ textTransform: 'uppercase' }}>
                                         {`${index + 1}. ${step.name}`}
                                     </Typography>
@@ -209,7 +210,7 @@ const RecipeInfoSection = () => {
                                             </List>
                                         </Grid>
                                     </Grid>
-                                </>
+                                </Box>
                             ))}
                         </Stack>
                     </Box>
@@ -233,7 +234,7 @@ const RecipeInfoSection = () => {
                         </Link>
                         <Typography
                             sx={{ display: "flex", alignItems: "center" }}
-                            color="text.primary"
+                            color="text.primary" component={"div"}
                         >
                             <Skeleton sx={{ minWidth: "5rem" }} />
                         </Typography>
@@ -396,8 +397,15 @@ const RecipeInfoSection = () => {
             throw recipeDetailsLodable.contents;
     }
 };
-
-const RecipeDetails: NextPage = () => {
+type Props = {
+    params: { id: string };
+};
+interface PageProps {
+    title: string;
+    description: string;
+    image: string;
+  }
+const RecipeDetails: NextPage<PageProps> = ({title,description,image} ) => {
     const router = useRouter();
     const { id } = router.query;
     const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
@@ -414,9 +422,19 @@ const RecipeDetails: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Detalles de la receta</title>
-                <meta name="description" content="Detalles de la receta" />
+                <title>{title}</title>
                 <link rel="icon" href="/favicon.png" />
+                <meta name="description" content={description} />
+
+                <meta property="og:type" content="website"/>
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta name="image" property="og:image" content={image}/>
+
+                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="twitter:title" content={title} />
+                <meta name="twitter:description" content={description} />
+                <meta name="twitter:image" content={image}/>
             </Head>
 
             <CommonLayout>
@@ -428,4 +446,35 @@ const RecipeDetails: NextPage = () => {
     );
 };
 
+
+export async function getServerSideProps(context: any) {
+    // Retrieve id
+    const { params } = context;
+    const id = params.id;
+
+    // Fetch data
+    const data = await fetchRecipeMetaById(id);
+    return {
+        props: {
+            title: data.title,
+            description: data.description,
+            image: data.image,
+        }
+    };
+}
+
+// // set dynamic metadata
+// export async function generateMetadata({ params }: Props): Promise<Metadata> {
+//     // read route params
+//     const id = params.id;
+//     // fetch data
+//     const data = await fetchRecipeMetaById(id);
+//     console.log(data);
+
+//     return {
+//         title: data.title,
+//         description: data.description,
+//         image: data.image,
+//     };
+// }
 export default RecipeDetails;

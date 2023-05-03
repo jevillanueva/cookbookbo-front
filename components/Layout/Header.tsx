@@ -214,7 +214,6 @@ export default function PrimarySearchAppBar() {
             <Typography
               variant="h6"
               noWrap
-              component="a"
               sx={{
                 ml: 1.5,
                 mr: 2,

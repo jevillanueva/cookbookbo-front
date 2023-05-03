@@ -102,7 +102,7 @@ const MeInfoSection = () => {
                         </Link>
                         <Typography
                             sx={{ display: "flex", alignItems: "center" }}
-                            color="text.primary"
+                            color="text.primary" component={"div"}
                         >
                             <Skeleton sx={{ minWidth: "5rem" }} />
                         </Typography>

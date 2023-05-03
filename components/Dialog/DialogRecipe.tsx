@@ -62,7 +62,7 @@ export default function DialogRecipe(props: {
                 name: "",
                 optional: false,
                 quantity_si: 0,
-                unit_si: "unknown",
+                unit_si: "kg",
                 quantity_equivalence: 0,
                 unit_equivalence: ""
             }
@@ -72,9 +72,9 @@ export default function DialogRecipe(props: {
         name: "",
         optional: false,
         quantity_si: 0,
-        unit_si: "unknown",
+        unit_si: "kg",
         quantity_equivalence: 0,
-        unit_equivalence: "taza"
+        unit_equivalence: "Taza"
     }
 
     // const [open, setOpen] = useState(false);
@@ -145,6 +145,9 @@ export default function DialogRecipe(props: {
     const handleChangeUnitySiIngredient = (indexPreparation: number, indexIngredient: number, value: string) => {
         const newFields = [...fields];
         newFields[indexPreparation].ingredients[indexIngredient].unit_si = value;
+        if (value === "unknown") {
+            newFields[indexPreparation].ingredients[indexIngredient].unit_equivalence = "Unidad";
+        }
         setFields(newFields);
     };
     const handleChangeOptionalIngredient = (indexPreparation: number, indexIngredient: number, value: boolean) => {
@@ -415,7 +418,6 @@ export default function DialogRecipe(props: {
                                                                                     label="Medida"
                                                                                     onChange={(event) => handleChangeUnitySiIngredient(index, indexIngredient, event.target.value)}
                                                                                 >
-                                                                                    <MenuItem value={"unknown"}>Unidad</MenuItem>
                                                                                     <ListSubheader>Masa</ListSubheader>
                                                                                     <MenuItem value={"kg"}>Kilogramos</MenuItem>
                                                                                     <MenuItem value={"g"}>Gramos</MenuItem>
@@ -425,6 +427,8 @@ export default function DialogRecipe(props: {
                                                                                     <MenuItem value={"ml"}>Mililitros</MenuItem>
                                                                                     <MenuItem value={"dl"}>Decilitros</MenuItem>
                                                                                     <MenuItem value={"cl"}>Centilitros</MenuItem>
+                                                                                    <ListSubheader>Otros</ListSubheader>
+                                                                                    <MenuItem value={"unknown"}>Unidad</MenuItem>
                                                                                 </Select>
                                                                                 <FormHelperText>
                                                                                     Medida en sistema internacional

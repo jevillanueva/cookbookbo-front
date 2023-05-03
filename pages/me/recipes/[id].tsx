@@ -51,7 +51,7 @@ const RecipeInfoSection = () => {
                                         alt={data.name}
                                         width={254}
                                         height={254}
-                                        objectFit="cover"
+                                        style={{objectFit: 'cover'}}
                                         onError={() => { setImgSrc(true) }}
                                     />
                                 </Paper>
@@ -164,7 +164,7 @@ const RecipeInfoSection = () => {
 
                         <Stack >
                             {data.preparation.map((step, index) => (
-                                <>
+                                <Box key={index}>
                                     <Typography key={index} variant="h5" sx={{ textTransform: 'uppercase' }}>
                                         {`${index + 1}. ${step.name}`}
                                     </Typography>
@@ -197,7 +197,7 @@ const RecipeInfoSection = () => {
                                             </List>
                                         </Grid>
                                     </Grid>
-                                </>
+                                </Box>
                             ))}
                         </Stack>
                     </Box>
@@ -221,7 +221,7 @@ const RecipeInfoSection = () => {
                         </Link>
                         <Typography
                             sx={{ display: "flex", alignItems: "center" }}
-                            color="text.primary"
+                            color="text.primary" component={"div"}
                         >
                             <Skeleton sx={{ minWidth: "5rem" }} />
                         </Typography>

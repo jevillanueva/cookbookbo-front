@@ -58,8 +58,8 @@ const Recipes = () => {
     const fabStyle = {
         margin: 0,
         top: 'auto',
-        right: 16,
-        bottom: 16,
+        right: 25,
+        bottom: 25,
         left: 'auto',
         position: 'fixed',
     }

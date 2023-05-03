@@ -177,7 +177,7 @@ export default function RecipeListItem(props: {
             <ListItemAvatar>
                 <Avatar>
                     {(recipe.image !== undefined && recipe.image !== null) ?
-                        <Image src={recipe.image.url} alt={recipe.image.name} layout="fill" objectFit="cover" />
+                        <Image src={recipe.image.url} alt={recipe.image.name} fill style={{objectFit: 'cover'}}/>
                         :
                         <RestaurantIcon />
                     }

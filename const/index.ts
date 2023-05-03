@@ -61,3 +61,8 @@ export type PageProps = {
   title: string;
   html: string;
 }
+export interface MetaProps {
+  title: string;
+  description: string;
+  image: string;
+}

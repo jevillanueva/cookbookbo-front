@@ -35,7 +35,7 @@ export default function BasicCard(props: RecipeProps) {
               alt={name}
               width={254}
               height={140}
-              objectFit="cover"
+              style={{objectFit: 'cover'}}
             />
           </CardMedia>
         )}

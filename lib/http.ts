@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PageProps, RecipeProps, UserProps } from "const";
+import { MetaProps, PageProps, RecipeProps, UserProps } from "const";
 // import { BookProps, BookDetailProps, BookRatingsProps } from "const";
 export async function fetchSearchRecipes(data: {
   search?: string;
@@ -51,7 +51,7 @@ export async function fetchLoginAPI(access_token: string) {
     return response.data.token;
   } catch (error) {
     console.error(error);
-    return null;
+    throw new Error("Error to login");
   }
 }
 
@@ -291,5 +291,26 @@ export async function fetchPageDetailsById(id: string): Promise<{
   } catch (error) {
     console.error(error);
     return { error, content: {} as PageProps };
+  }
+}
+export async function fetchRecipeMetaById(id?: string): Promise<MetaProps> {
+  try {
+    if (!id) {
+      return { title: "Cocina Boliviana", description: "Receta disponible en Cocina Boliviana", image: "/error_recipe.png" };
+    }
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const response = await axios.get(`${API_URL}/recipe/public/${id}/meta`);
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    const image = response.data.image;
+    if (image) {
+      return { title: response.data.name, description: response.data.description, image: response.data.image.url };
+    }else{
+      return { title: response.data.name, description: response.data.description, image: "/error_recipe.png" };
+    }
+  } catch (error) {
+    console.error(error);
+    return { title: "Cocina Boliviana", description: "Receta disponible en Cocina Boliviana", image: "/error_recipe.png" };
   }
 }
