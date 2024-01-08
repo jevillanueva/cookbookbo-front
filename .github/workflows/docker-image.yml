@@ -11,6 +11,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   IMAGE_TAG: ${{ github.sha }}
   NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+  NEXT_PUBLIC_GOOGLE_MAPS_API_KEY : ${{secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
 
 jobs:
 

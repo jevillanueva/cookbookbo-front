@@ -11,7 +11,7 @@ export default function FooterBar(){
             backgroundColor: '#00000008',
         }} component="footer" square >
             <Typography sx={{ padding: '0' }} variant="caption" align="left" color="text.secondary" component="p">
-                <a href="https://api.cocinabo.jevillanueva.dev/pages/privacy-policy" target="_blank" rel="noopener noreferrer">| Privacy policy </a>
+                <a href="https://api.ayllufood.jevillanueva.dev/pages/privacy-policy" target="_blank" rel="noopener noreferrer">| Privacy policy </a>
                 <Link href="/page/terms-of-service" target="_blank" rel="noopener noreferrer">| Terms of service </Link>
                 <a href="https://github.com/jevillanueva/cookbookbo-front" target="_blank" rel="noopener noreferrer">| GitHub </a>
                 <a href="mailto:me@jevillanueva.dev" >| Contact Us </a>
