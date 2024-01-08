@@ -17,6 +17,8 @@ import { accessTokenState } from 'atoms';
 import { useRecoilState } from 'recoil';
 import { getRecipeByIdUser, postNewRecipeUser, putRecipeUser } from 'lib/http';
 import { TransitionProps } from '@mui/material/transitions';
+import MapGoogle from 'components/Utils/Map';
+import React from 'react';
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: React.ReactElement;
@@ -26,14 +28,16 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function DialogRecipe(props: {
-    idToEdit?: string,
+    idToEdit: string,
     open: boolean,
     setOpen: (open: boolean) => void,
     callback?: () => void
+    callbackClear?: () => void
 }) {
     const {
         idToEdit,
         callback = () => { },
+        callbackClear = () => { },
         open,
         setOpen
     } = props;
@@ -53,6 +57,9 @@ export default function DialogRecipe(props: {
         category: ["unknown"],
         portion: 0,
         preparation_time_minutes: 0,
+        lat: 0,
+        lng: 0,
+        elevation: 0,
         preparation: []
     };
 
@@ -80,10 +87,13 @@ export default function DialogRecipe(props: {
     // const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [recipe, setRecipe] = useState<RecipeProps>(defaultRecipe);
+    const [locationRecipe, setLocationRecipe] = useState<string>("");
+    const [latDefault, setLatDefault] = useState<number>(0);
+    const [lngDefault, setLngDefault] = useState<number>(0);
     const [fields, setFields] = useState<PreparationProps[]>([]);
 
     const loadRecipe = async () => {
-        if (idToEdit !== "" && idToEdit !== undefined) {
+        if (idToEdit !== "") {
             setRecipe(defaultRecipe);
             setFields([]);
             setLoading(true);
@@ -96,6 +106,8 @@ export default function DialogRecipe(props: {
             }
             setRecipe(oldRecipe.content);
             setFields(oldRecipe.content.preparation);
+            setLatDefault(oldRecipe.content.lat);
+            setLngDefault(oldRecipe.content.lng);
             setLoading(false);
         } else {
             setRecipe(defaultRecipe);
@@ -186,18 +198,23 @@ export default function DialogRecipe(props: {
         newFields.splice(indexPreparation, 1);
         setFields(newFields);
     };
-
+    const handleSearchRecipeLocation= () => {
+        setLocationRecipe(recipe.location);
+    }
+    const setLatLngElevation = (lat: number, lng: number, elevation: number) => {
+        setRecipe({ ...recipe, lat: lat, lng: lng, elevation: elevation });
+    }
     const { enqueueSnackbar } = useSnackbar();
     const handleClose = () => {
         setOpen(false);
+        callbackClear();
     };
     const handleAction = async (e: any) => {
         e.preventDefault();
         setLoading(true);
-        console.log(e);
         let recipeData = recipe;
         recipeData.preparation = fields;
-        if (idToEdit !== "" && idToEdit !== undefined) {
+        if (idToEdit !== "") {
             recipeData._id = idToEdit;
             const response = await putRecipeUser(token, recipeData);
             if (response.error) {
@@ -215,6 +232,7 @@ export default function DialogRecipe(props: {
             setLoading(false);
             handleClose();
             callback();
+            callbackClear();
             return;
         }
         const response = await postNewRecipeUser(token, recipeData);
@@ -237,6 +255,7 @@ export default function DialogRecipe(props: {
         setLoading(false);
         handleClose();
         callback();
+        callbackClear();
     };
     useEffect(() => {
         loadRecipe();
@@ -251,7 +270,7 @@ export default function DialogRecipe(props: {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
             TransitionComponent={Transition}
-
+            key={idToEdit}
         >
             <form onSubmit={handleAction}>
                 <AppBar sx={{ position: 'relative' }}>
@@ -320,9 +339,14 @@ export default function DialogRecipe(props: {
                                     onChange={(event) => handleChangeRecipe(event.target.name, event.target.value)} />
                             </Grid>
                             <Grid item lg={6} md={12} xs={12}>
-                                <TextField fullWidth id="location" name='location' label="Locación la receta" variant="filled"
+                                <TextField fullWidth id="location" name='location' label="Ubicación de la receta" variant="filled"
                                     value={recipe.location}
-                                    onChange={(event) => handleChangeRecipe(event.target.name, event.target.value)} />
+                                    onChange={(event) => handleChangeRecipe(event.target.name, event.target.value)} 
+                                    onBlur={(event) => handleSearchRecipeLocation()}
+                                    />
+                            </Grid>
+                            <Grid item lg={12} md={12} xs={12}>
+                                <MapGoogle address={locationRecipe} setLatLngElevation={setLatLngElevation} lat={latDefault} lng={lngDefault} />
                             </Grid>
                             <Grid item lg={6} md={12} xs={12}>
                                 <TextField required fullWidth id="portion" name='portion' label="Porciones" variant="filled" type="number"

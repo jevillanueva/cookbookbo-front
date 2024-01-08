@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { SnackbarProvider } from "notistack";
 import { Session } from "next-auth";
 import FooterBar from "components/Layout/footer";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from "@mui/material";
 
 function DebugObserver(): any {
   const snapshot = useRecoilSnapshot();
@@ -19,14 +21,29 @@ function DebugObserver(): any {
   return null;
 }
 
+
+const theme= createTheme ({
+  palette: {
+    primary: {
+      main: '#a96766',
+    }, 
+    secondary: {
+      main: '#529696',
+    },
+  },
+});
+
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   return (
     <SessionProvider session={session}>
       <RecoilRoot>
         <DebugObserver />
         <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-          <Component {...pageProps} />
-          <FooterBar/>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+            <FooterBar />
+          </ThemeProvider>
         </SnackbarProvider>
       </RecoilRoot>
     </SessionProvider>

@@ -26,12 +26,12 @@ import { Grid, List, ListItem, ListItemText } from "@mui/material";
 import { fetchRecipeMetaById } from "lib/http";
 const RecipeInfoSection = () => {
 
-    const recipeDetailsLodable = useRecoilValueLoadable(recipeInfoQuery);
+    const recipeDetailsLoadable = useRecoilValueLoadable(recipeInfoQuery);
     const [imgSrc, setImgSrc] = useState(false);
 
-    switch (recipeDetailsLodable.state) {
+    switch (recipeDetailsLoadable.state) {
         case "hasValue":
-            const data = recipeDetailsLodable.contents.content;
+            const data = recipeDetailsLoadable.contents.content;
             return (
                 <>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "1rem 0" }}>
@@ -176,6 +176,18 @@ const RecipeInfoSection = () => {
                                                 component="span"
                                             >
                                                 {data.description}
+                                            </Typography>
+                                        </Typography>
+                                    )}
+                                    {data.elevation  && (
+                                        <Typography>
+                                            {`Altitud: `}
+                                            <Typography
+                                                sx={{ fontSize: 14 }}
+                                                color="text.secondary"
+                                                component="span"
+                                            >
+                                                {`${data.elevation.toFixed(2) } m s. n. m.`}
                                             </Typography>
                                         </Typography>
                                     )}
@@ -406,7 +418,7 @@ const RecipeInfoSection = () => {
                 </>
             );
         case "hasError":
-            throw recipeDetailsLodable.contents;
+            throw recipeDetailsLoadable.contents;
     }
 };
 type Props = {
@@ -481,7 +493,6 @@ export async function getServerSideProps(context: any) {
 //     const id = params.id;
 //     // fetch data
 //     const data = await fetchRecipeMetaById(id);
-//     console.log(data);
 
 //     return {
 //         title: data.title,

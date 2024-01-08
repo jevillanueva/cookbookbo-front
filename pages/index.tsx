@@ -8,6 +8,7 @@ import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
 import RecipeInfo from "components/Card/RecipeInfo";
 import { RecipeSekeleton } from "components/Skeleton/RecipeCardSkeleton";
+import { AppDetails } from "const";
 const PAGE_SIZE = 10;
 
 
@@ -59,8 +60,8 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Cocina Boliviana</title>
-        <meta name="description" content="Cocina Boliviana" />
+        <title>{AppDetails.title}</title>
+        <meta name="description" content={AppDetails.title} />
         <link rel="icon" href="/favicon.png" />
       </Head>
 

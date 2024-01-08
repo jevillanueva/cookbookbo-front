@@ -9,7 +9,7 @@ import CommonLayout from "components/Layout";
 import { Box, Breadcrumbs, Container, Grid, Link, Skeleton, Typography } from "@mui/material";
 import { pageInfoQuery } from "selectors";
 
-import { PageProps } from "const";
+import { AppDetails, PageProps } from "const";
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkHtml from 'remark-html'
@@ -113,8 +113,8 @@ const PagePage: NextPage = () => {
     const { id } = router.query;
     const [, setSearchBarVisible] = useRecoilState(searchBarVisible);
     const [, setPageDetailsIdState] = useRecoilState(pageDetailsIdState);
-    const [title, setTitle] = useState<string>("Cocina Boliviana");
-    const [description, setDescription] = useState<string>("Cocina Boliviana");
+    const [title, setTitle] = useState<string>(AppDetails.title);
+    const [description, setDescription] = useState<string>(AppDetails.description);
     useRecoilState
     useEffect(() => {
         id && setPageDetailsIdState(id as string);

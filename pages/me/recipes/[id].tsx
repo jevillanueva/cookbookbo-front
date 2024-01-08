@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Divider from "@mui/material/Divider";
 import { Grid, List, ListItem, ListItemText } from "@mui/material";
+import MapGoogle from "components/Utils/Map";
 const RecipeInfoSection = () => {
 
     const recipeDetailsLodable = useRecoilValueLoadable(recipeUserInfoQuery);
@@ -166,11 +167,26 @@ const RecipeInfoSection = () => {
                                             </Typography>
                                         </Typography>
                                     )}
+                                    {data.elevation  && (
+                                        <Typography>
+                                            {`Altitud: `}
+                                            <Typography
+                                                sx={{ fontSize: 14 }}
+                                                color="text.secondary"
+                                                component="span"
+                                            >
+                                                {`${data.elevation.toFixed(2) } m s. n. m.`}
+                                            </Typography>
+                                        </Typography>
+                                    )}
+                                    
                                 </Stack>
                             </Grid>
                         </Grid>
 
                     </Box>
+                    <Divider sx={{ margin: "2rem 0" }} />
+                    <MapGoogle address={data.location} interactive={false} lat={data.lat} lng={data.lng} staticElevation={true} elevation={data.elevation}  />
                     <Divider sx={{ margin: "2rem 0" }} />
                     <Box>
 

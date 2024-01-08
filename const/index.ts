@@ -38,6 +38,9 @@ export type RecipeProps = {
   category: string[];
   portion: number;
   preparation_time_minutes: number;
+  lat: number;
+  lng: number;
+  elevation?: number;
   score?: number;
   preparation: PreparationProps[];
   image?: ImageProps;
@@ -65,4 +68,17 @@ export interface MetaProps {
   title: string;
   description: string;
   image: string;
+}
+export interface AppProps {
+  title: string;
+  description: string;
+  recipe_availability: string;
+  recipe_image_error: string;
+}
+
+export const AppDetails: AppProps = {
+  title: "Ayllu Food",
+  description: "Una plataforma de recetas de cocina, donde puedes encontrar recetas de todos y compartir tus propias recetas.",
+  recipe_availability: "Receta disponible en Ayllu Food",
+  recipe_image_error:  "/error_recipe.png"
 }

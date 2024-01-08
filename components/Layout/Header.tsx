@@ -23,6 +23,7 @@ import { signIn, signOut, useSession } from "next-auth/react"
 import { fetchSignOutAPI } from "lib/http";
 import { Avatar } from "@mui/material";
 import Image from "next/image";
+import { AppDetails } from "const";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -226,7 +227,7 @@ export default function PrimarySearchAppBar() {
                 cursor: "pointer",
               }}
             >
-              Cocina Boliviana
+              {AppDetails.title}
             </Typography>
           </Link>
           {searchBar && (
@@ -255,23 +256,23 @@ export default function PrimarySearchAppBar() {
               onClick={handleProfileMenuOpen}
               color="inherit"
             >
-              <Avatar>
-                {status === "authenticated" && session ?
-                  <>
-                    {session.user.image !== null && session.user.image !== undefined ?
-                      <>
-                        {session.user.name !== null && session.user.name !== undefined ?
-                          <Image src={session.user.image} alt={session.user.name} layout="fill" /> :
-                          <Image src={session.user.image} alt="Usuario" layout="fill" />
-                        }
-                      </> :
-                      null}
+                <Avatar sx={{borderColor:(theme) => theme.palette.secondary.main, borderStyle: "solid"}}>
+                  {status === "authenticated" && session ?
+                    <>
+                      {session.user.image !== null && session.user.image !== undefined ?
+                        <>
+                          {session.user.name !== null && session.user.name !== undefined ?
+                            <Image src={session.user.image} alt={session.user.name} layout="fill" /> :
+                            <Image src={session.user.image} alt="Usuario" layout="fill" />
+                          }
+                        </> :
+                        null}
 
-                  </>
-                  :
-                  <AccountCircle />
-                }
-              </Avatar>
+                    </>
+                    :
+                    <AccountCircle />
+                  }
+                </Avatar>
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -283,7 +284,7 @@ export default function PrimarySearchAppBar() {
               onClick={handleMobileMenuOpen}
               color="inherit"
             >
-              <Avatar>
+              <Avatar  sx={{borderColor:(theme) => theme.palette.secondary.main, borderStyle: "solid"}}>
                 {status === "authenticated" && session ?
                   <>
                     {session.user.image !== null && session.user.image !== undefined ?

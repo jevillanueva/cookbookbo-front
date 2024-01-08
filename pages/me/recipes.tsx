@@ -250,13 +250,13 @@ const Recipes = () => {
                     () => {
                         setSearchRecipeNotRequestedState({ search: searchNotRequested.search });
                         setSearchRecipeRejectedState({ search: searchRejected.search });
+                    }
+                }
+                callbackClear={
+                    () => {
                         setIdToEdit("");
                     }
-                } />
-
-
-
-
+                }/>
         </Box>
     )
 }

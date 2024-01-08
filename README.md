@@ -1,4 +1,4 @@
-# Cocina boliviana Frontend
+# Ayllu Food Frontend
 
 ## Desarrollo
 
