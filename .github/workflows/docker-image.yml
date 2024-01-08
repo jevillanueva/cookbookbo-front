@@ -18,6 +18,19 @@ jobs:
     - 
       name: Checkout
       uses: actions/checkout@v3
+    - 
+      name: Configure Tags
+      run: |
+        TAG=$(git describe --tags --abbrev=0)
+        if [ "$TAG" == "" ]; then
+          echo "No tags found, using commit hash"
+          TAG=$(git rev-parse --short HEAD)
+        fi
+        echo "TAG=$TAG" >> $GITHUB_ENV
+    - 
+      name: Verify Tags
+      run: |
+        echo "Using tag $TAG"
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -41,4 +54,7 @@ jobs:
         build-args: |
           NEXT_PUBLIC_API_URL_ARG=${{env.NEXT_PUBLIC_API_URL}}
           NEXT_PUBLIC_GOOGLE_MAPS_API_KEY_ARG=${{env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
-        tags: ${{ env.IMAGE_NAME }}:${{env.IMAGE_TAG}},${{ env.IMAGE_NAME }}:latest
+        tags: |
+          ${{ env.IMAGE_NAME }}:${{env.IMAGE_TAG}}
+          ${{ env.IMAGE_NAME }}:latest
+          ${{ env.IMAGE_NAME }}:${{env.TAG}}
