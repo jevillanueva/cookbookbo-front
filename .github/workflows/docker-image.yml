@@ -24,19 +24,6 @@ jobs:
     -
       name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-    - 
-      name: Configure Tags
-      run: |
-        TAG=$(git describe --tags --abbrev=0 2>/dev/null)
-        if [ -z "$TAG" ]; then
-          echo "No tags found, using commit hash"
-          TAG=$(git rev-parse --short HEAD)
-        fi
-        echo "TAG=$TAG" >> $GITHUB_ENV
-    - 
-      name: Verify Tags
-      run: |
-        echo "Using tag $TAG"
     - name: Docker Login
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
@@ -56,4 +43,3 @@ jobs:
         tags: |
           ${{ env.IMAGE_NAME }}:${{env.IMAGE_TAG}}
           ${{ env.IMAGE_NAME }}:latest
-          ${{ env.IMAGE_NAME }}:${{env.TAG}}
