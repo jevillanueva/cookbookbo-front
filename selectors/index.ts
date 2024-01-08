@@ -125,6 +125,8 @@ export const recipeUserInfoQuery = selector({
       location: "",
       portion: 0,
       preparation_time_minutes: 0,
+      lat: 0, 
+      lng: 0,
       preparation: []
     };
     return { content: defaultResponse };

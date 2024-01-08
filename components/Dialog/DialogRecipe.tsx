@@ -346,7 +346,7 @@ export default function DialogRecipe(props: {
                                     />
                             </Grid>
                             <Grid item lg={12} md={12} xs={12}>
-                                <MapGoogle address={locationRecipe} setLatLngElevation={setLatLngElevation} lat={latDefault} lng={lngDefault} />
+                                <MapGoogle address={locationRecipe} setLatLngElevation={setLatLngElevation} lat={latDefault} lng={lngDefault} interactive={true} staticElevation={false}  />
                             </Grid>
                             <Grid item lg={6} md={12} xs={12}>
                                 <TextField required fullWidth id="portion" name='portion' label="Porciones" variant="filled" type="number"
