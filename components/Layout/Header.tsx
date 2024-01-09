@@ -290,8 +290,8 @@ export default function PrimarySearchAppBar() {
                     {session.user.image !== null && session.user.image !== undefined ?
                       <>
                         {session.user.name !== null && session.user.name !== undefined ?
-                          <Image src={session.user.image} alt={session.user.name} layout="fill" /> :
-                          <Image src={session.user.image} alt="Usuario" layout="fill" />
+                          <Image src={session.user.image} alt={session.user.name} fill /> :
+                          <Image src={session.user.image} alt="Usuario" fill />
                         }
                       </> :
                       null}
