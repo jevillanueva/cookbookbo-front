@@ -68,7 +68,7 @@ const Home: NextPage = () => {
       <CommonLayout>
         <div className={styles.content}>
           <main className={styles.main}>
-            <Container>
+            <Container className={styles.container}>
               <RecipeList page={homePageQueryData.page} />
               <Box
                 sx={{
@@ -91,6 +91,7 @@ const Home: NextPage = () => {
                   }}
                 />
               </Box>
+              <Box sx={{ padding: "1rem" }}></Box>
             </Container>
           </main>
         </div>

@@ -24,6 +24,7 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Divider from "@mui/material/Divider";
 import { Grid, List, ListItem, ListItemText } from "@mui/material";
 import { fetchRecipeMetaById } from "lib/http";
+import styles from "../../styles/RecipeDetails.module.css";
 const RecipeInfoSection = () => {
 
     const recipeDetailsLoadable = useRecoilValueLoadable(recipeInfoQuery);
@@ -35,7 +36,7 @@ const RecipeInfoSection = () => {
             return (
                 <>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "1rem 0" }}>
-                        <Link href="/">
+                        <Link href="/" aria-label="Inicio">
                             <Typography
                                 sx={{
                                     display: "flex",
@@ -57,8 +58,8 @@ const RecipeInfoSection = () => {
                     </Breadcrumbs>
                     <Box>
                         <Grid container spacing={2}>
-                            <Grid item xl={4} lg={4} md={6} sm={12} xs={12}>
-                                <Paper elevation={24} sx={{ width: "254px", height: "254px" }}>
+                            <Grid item xl={4} lg={4} md={12} sm={12} xs={12} className={styles.gridImageBox}>
+                                <Paper elevation={24} className={styles.imageBox}>
                                     <Image
                                         src={imgSrc ? '/error_recipe.svg' : (data.image !== undefined && data.image !== null) ? data.image.url : '/error_recipe.svg'}
                                         alt={data.name}
@@ -69,7 +70,7 @@ const RecipeInfoSection = () => {
                                     />
                                 </Paper>
                             </Grid>
-                            <Grid item xl={8} lg={8} md={6} sm={12} xs={12}>
+                            <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>
                                 <Stack spacing={2}>
                                     <Typography variant="h5">
                                         Detalles de la Receta
@@ -125,6 +126,10 @@ const RecipeInfoSection = () => {
                                             {data.portion}
                                         </Typography>
                                     </Typography>
+                                </Stack>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={6} sm={6} xs={12}>
+                                <Stack spacing={2}>
                                     <Typography>
                                         {`Tiempo: `}
                                         <Typography
@@ -179,7 +184,7 @@ const RecipeInfoSection = () => {
                                             </Typography>
                                         </Typography>
                                     )}
-                                    {data.elevation  && (
+                                    {data.elevation && (
                                         <Typography>
                                             {`Altitud: `}
                                             <Typography
@@ -187,7 +192,7 @@ const RecipeInfoSection = () => {
                                                 color="text.secondary"
                                                 component="span"
                                             >
-                                                {`${data.elevation.toFixed(2) } m s. n. m.`}
+                                                {`${data.elevation.toFixed(2)} m s. n. m.`}
                                             </Typography>
                                         </Typography>
                                     )}
@@ -244,7 +249,7 @@ const RecipeInfoSection = () => {
             return (
                 <>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "1rem 0" }}>
-                        <Link href="/">
+                        <Link href="/" aria-label="Inicio">
                             <Typography
                                 sx={{
                                     display: "flex",

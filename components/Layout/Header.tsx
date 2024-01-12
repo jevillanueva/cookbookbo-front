@@ -52,7 +52,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+  color: "black",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -124,13 +124,13 @@ export default function PrimarySearchAppBar() {
       )}
       {session && (
         <div>
-          <Link href="/me">
+          <Link href="/me" aria-label="Perfil" >
             <MenuItem>Perfil</MenuItem>
           </Link>
-          <Link href="/me/recipes">
+          <Link href="/me/recipes" aria-label="Mis Recetas">
             <MenuItem>Mis Recetas</MenuItem>
           </Link>
-          <a href={`/api/auth/signout`} onClick={(e) => {
+          <a href={`/api/auth/signout`} aria-label="Salir" onClick={(e) => {
             e.preventDefault()
             fetchSignOutAPI(token);
             signOut({ callbackUrl: `${window.location.origin}` });
@@ -170,13 +170,13 @@ export default function PrimarySearchAppBar() {
       )}
       {session && (
         <>
-          <Link href="/me">
+          <Link href="/me" aria-label="Perfil">
             <MenuItem>Perfil</MenuItem>
           </Link>
-          <Link href="/me/recipes">
+          <Link href="/me/recipes" aria-label="Mis Recetas">
             <MenuItem>Mis Recetas</MenuItem>
           </Link>
-          <a href={`/api/auth/signout`} onClick={(e) => {
+          <a href={`/api/auth/signout`} aria-label="Salir" onClick={(e) => {
             e.preventDefault()
             signOut({ callbackUrl: `${window.location.origin}` })
           }}>
@@ -207,11 +207,13 @@ export default function PrimarySearchAppBar() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Link href="/" >
+          <Link href="/" aria-label="Inicio" >
             {/* <FoodBankIcon fontSize="large" sx={{ display: { md: "flex" }, mr: 1 }} /> */}
-            <Image src="/logo.svg" alt="logo" width={40} height={40} />
+            <Image src="/logo.svg" alt="logo" width={40} height={40} style={{
+              marginRight: "6px"
+            }} />
           </Link>
-          <Link href="/">
+          <Link href="/" aria-label="Inicio" >
             <Typography
               variant="h6"
               noWrap

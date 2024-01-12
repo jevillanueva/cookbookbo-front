@@ -1,0 +1,9 @@
+.imageBox {
+    width: 254px;
+    height: 254px;
+    
+}
+.gridImageBox{
+    justify-content: center;
+    display: grid;
+}

@@ -22,7 +22,7 @@ const MeInfoSection = () => {
             return (
                 <>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "1rem 0" }}>
-                        <Link href="/">
+                        <Link href="/" aria-label="Inicio">
                             <Typography
                                 sx={{
                                     display: "flex",
@@ -88,7 +88,7 @@ const MeInfoSection = () => {
             return (
                 <>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ padding: "1rem 0" }}>
-                        <Link href="/">
+                        <Link href="/" aria-label="Inicio">
                             <Typography
                                 sx={{
                                     display: "flex",

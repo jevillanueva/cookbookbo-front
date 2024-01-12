@@ -17,7 +17,6 @@ export default function BasicCard(props: RecipeProps) {
   return (
     <Card
       sx={{
-        width: 256,
         boxShadow:
           "0 0.5em 1em -0.125em hsl(0deg 0% 4% / 10%), 0 0 0 1px hsl(0deg 0% 4% / 2%)",
         border: "1px solid #e9eaee",
@@ -49,7 +48,7 @@ export default function BasicCard(props: RecipeProps) {
               {owner.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
             </Typography>
           )}
-          <Link href={`/recipe/${_id}`}>
+          <Link href={`/recipe/${_id}`} aria-label={name}>
             <Typography variant="h5" component="div" sx={{ cursor: "pointer" }}>
               {name}
             </Typography>
