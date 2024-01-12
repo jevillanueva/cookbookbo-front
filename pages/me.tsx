@@ -164,6 +164,8 @@ const MePage: NextPage = () => {
                 <title>Mi Perfil</title>
                 <meta name="description" content="Perfil de Usuario" />
                 <link rel="icon" href="/favicon.png" />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#a96766"/>
             </Head>
             <CommonLayout>
                 <Container>

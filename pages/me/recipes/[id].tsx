@@ -443,6 +443,8 @@ const RecipeDetails: NextPage = () => {
                 <title>Detalles de la receta</title>
                 <meta name="description" content="Detalles de la receta" />
                 <link rel="icon" href="/favicon.png" />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#a96766"/>
             </Head>
 
             <CommonLayout>

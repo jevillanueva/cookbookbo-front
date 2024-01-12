@@ -63,6 +63,8 @@ const Home: NextPage = () => {
         <title>{AppDetails.title}</title>
         <meta name="description" content={AppDetails.title} />
         <link rel="icon" href="/favicon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#a96766"/>
       </Head>
 
       <CommonLayout>

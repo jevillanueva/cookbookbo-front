@@ -127,6 +127,8 @@ const PagePage: NextPage = () => {
                 <title>{title}</title>
                 <meta name="description" content={description} />
                 <link rel="icon" href="/favicon.png" />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#a96766"/>
             </Head>
             <CommonLayout>
                 <Container>

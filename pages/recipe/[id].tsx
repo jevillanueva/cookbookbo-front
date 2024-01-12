@@ -464,6 +464,8 @@ const RecipeDetails: NextPage<PageProps> = ({ title, description, image }) => {
                 <meta name="twitter:title" content={title} />
                 <meta name="twitter:description" content={description} />
                 <meta name="twitter:image" content={image} />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#a96766"/>
             </Head>
 
             <CommonLayout>

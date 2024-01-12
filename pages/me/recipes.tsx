@@ -269,6 +269,8 @@ const MyRecipesPage: NextPage = () => {
                 <title>Mis Recetas</title>
                 <meta name="description" content="Mis Recetas" />
                 <link rel="icon" href="/favicon.png" />
+                <link rel="manifest" href="/manifest.json" />
+                <meta name="theme-color" content="#a96766"/>
             </Head>
             <CommonLayout>
                 <Recipes />
